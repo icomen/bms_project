@@ -120,7 +120,17 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-
+/*
+    public void setDarkMode() {
+        checkMenuItem.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                scene.getStyleSheets().add("DarkTheme.css");
+            } else {
+                scene.getStyleSheets().remove("DarkTheme.css");
+            }
+        });
+    }
+*/
 
 
 

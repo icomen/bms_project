@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -9,11 +10,11 @@
 
 <HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="mainpane" stylesheets="@RootStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.RootLayoutController">
    <children>
-      <VBox prefHeight="400.0" prefWidth="54.0" styleClass="sidepane" stylesheets="@RootStyle.css">
+      <VBox prefHeight="400.0" prefWidth="50.0" styleClass="sidepane" stylesheets="@RootStyle.css">
          <children>
             <Pane prefHeight="57.0" prefWidth="62.0">
                <children>
-                  <ImageView fitHeight="51.0" fitWidth="88.0" layoutX="-17.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="65.0" fitWidth="112.0" layoutX="-23.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/logo-UNICAS.png" />
                      </image>
@@ -47,6 +48,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
+            <JFXToggleButton contentDisplay="GRAPHIC_ONLY" unToggleLineColor="BLACK" />
          </children></VBox>
    </children>
 </HBox>
