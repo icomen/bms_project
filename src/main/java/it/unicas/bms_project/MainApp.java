@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,7 +24,7 @@ import java.util.prefs.Preferences;
 public class MainApp extends Application {
 
     private Stage primaryStage;
-    private BorderPane rootLayout;
+    private HBox rootLayout;
 
     /**
      * Constructor
@@ -108,7 +109,8 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("BmsOverview.fxml"));
 
             // Set BMS overview into the center of root layout.
-            rootLayout.setCenter(loader.load());
+            //rootLayout.setCenter(loader.load());
+            loader.load();
 
             // Give the controller access to the main app.
             BmsOverviewController controller = loader.getController();
