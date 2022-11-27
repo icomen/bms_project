@@ -4,14 +4,13 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.BmsOverviewController">
    <children>
       <ButtonBar layoutX="165.0" layoutY="346.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Button" />
-            <Button layoutX="135.0" layoutY="17.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="135.0" layoutY="17.0" mnemonicParsing="false" text="Button" />
+          <Button mnemonicParsing="false" text="Input" />
+            <Button layoutX="135.0" layoutY="17.0" mnemonicParsing="false" text="Stop" />
+            <Button layoutX="135.0" layoutY="17.0" mnemonicParsing="false" text="Report" />
         </buttons>
       </ButtonBar>
    </children>
