@@ -36,7 +36,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("BMS app");
+        this.primaryStage.setTitle("BMS App");
 
         // Set the application icon.
         this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
@@ -131,9 +131,40 @@ public class MainApp extends Application {
         });
     }
 */
+/*
+    public boolean showSettingsEditDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("InputEditDialog.fxml"));
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("DAO settings");
+            dialogStage.initModality((Modality.WINDOW_MODAL));
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(loader.load());
+            dialogStage.setScene(scene);
 
 
+            // Set the colleghi into the controller.
+            SettingsEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setSettings(daoMySQLSettings);
 
+            // Set the dialog icon.
+            dialogStage.getIcons().add(new Image("file:resources/images/edit.png"));
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+
+            return controller.isOkClicked();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+*/
 
 
 
