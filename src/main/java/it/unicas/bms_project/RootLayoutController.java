@@ -31,7 +31,7 @@ public class RootLayoutController {
     // Reference to the main application
     private MainApp mainApp;
     @FXML
-    private JFXToggleButton boton;
+    private JFXToggleButton dm;
 
 
     /**
@@ -75,12 +75,12 @@ public class RootLayoutController {
     @FXML
     public void setDarkMode() {
         Boolean isSelected;
-        isSelected = boton.isSelected();
+        isSelected = dm.isSelected();
             if (isSelected) {
-                boton.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+                dm.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
             }
             else {
-                boton.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
+                dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
             }
     }
 
