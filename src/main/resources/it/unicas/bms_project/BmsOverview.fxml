@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.BmsOverviewController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.BmsOverviewController">
    <children>
-      <ButtonBar layoutX="165.0" layoutY="346.0" prefHeight="40.0" prefWidth="200.0">
-        <buttons>
-          <Button mnemonicParsing="false" text="Input" />
-            <Button layoutX="135.0" layoutY="17.0" mnemonicParsing="false" text="Stop" />
-            <Button layoutX="135.0" layoutY="17.0" mnemonicParsing="false" text="Report" />
-        </buttons>
-      </ButtonBar>
+      <CheckBox layoutX="121.0" layoutY="159.0" mnemonicParsing="false" text="CheckBox" />
+      <Button layoutX="300.0" layoutY="155.0" mnemonicParsing="false" text="Button" />
    </children>
 </AnchorPane>

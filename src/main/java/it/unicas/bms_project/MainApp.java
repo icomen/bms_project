@@ -9,7 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -24,7 +26,7 @@ import java.util.prefs.Preferences;
 public class MainApp extends Application {
 
     private Stage primaryStage;
-    private HBox rootLayout;
+    private BorderPane rootLayout;
 
     /**
      * Constructor
@@ -82,12 +84,17 @@ public class MainApp extends Application {
      * Closes the application.
      */
     public void handleExit() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Are you sure?");
-        alert.setHeaderText("Exit");
-        alert.setContentText("Exit from application.");
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Confirm Exit");
+        alert.setHeaderText("Are you sure you want to exit?");
+        alert.getDialogPane().setContent(new CheckBox("Don't ask again"));
 
-        ButtonType buttonTypeOne = new ButtonType("Yes");
+
+
+
+
+        ButtonType buttonTypeOne = new ButtonType("Exit");
+
         ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
@@ -109,8 +116,8 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("BmsOverview.fxml"));
 
             // Set BMS overview into the center of root layout.
-            //rootLayout.setCenter(loader.load());
-            loader.load();
+            rootLayout.setCenter(loader.load());
+
 
             // Give the controller access to the main app.
             BmsOverviewController controller = loader.getController();

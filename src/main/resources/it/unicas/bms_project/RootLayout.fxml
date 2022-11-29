@@ -5,13 +5,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="mainpane" stylesheets="@RootStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.RootLayoutController">
-   <children>
-      <VBox prefHeight="400.0" prefWidth="50.0" styleClass="sidepane" stylesheets="@RootStyle.css">
+
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.RootLayoutController">
+   <left>
+      <VBox prefHeight="400.0" prefWidth="50.0" styleClass="sidepane" stylesheets="@RootStyle.css" BorderPane.alignment="CENTER">
          <children>
             <Pane onMouseClicked="#handleAbout" prefHeight="57.0" prefWidth="62.0">
                <children>
@@ -27,6 +28,15 @@
                   <ImageView fitHeight="32.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="184.0" prefHeight="58.0" prefWidth="62.0" text="home">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/home.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -49,17 +59,9 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="184.0" prefHeight="58.0" prefWidth="62.0" text="home">
-               <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../images/home.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
             <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" opacity="0.0" prefHeight="51.0" prefWidth="66.0" text="Button" />
             <JFXToggleButton contentDisplay="GRAPHIC_ONLY" text="dark_mode" unToggleLineColor="BLACK" />
-         </children></VBox>
-   </children>
-</HBox>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>
