@@ -31,7 +31,7 @@ public class RootLayoutController {
     // Reference to the main application
     private MainApp mainApp;
     @FXML
-    private JFXToggleButton dm;
+    public JFXToggleButton dm;
 
 
     /**
@@ -52,6 +52,9 @@ public class RootLayoutController {
     @FXML
     private void handleAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
+        if (dm.isSelected()) {
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+        }
         alert.setTitle("BMS App");
         alert.setHeaderText("About");
 
@@ -67,7 +70,6 @@ public class RootLayoutController {
 
     @FXML
     private void handleExit() {
-
         mainApp.handleExit();
 
     }

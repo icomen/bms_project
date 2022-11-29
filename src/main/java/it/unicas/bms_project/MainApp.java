@@ -26,6 +26,10 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
+    RootLayoutController contr;
+
+
+
     /**
      * Constructor
      */
@@ -71,8 +75,8 @@ public class MainApp extends Application {
 
 
             // Give the controller access to the main app.
-            RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
+            contr = loader.getController();
+            contr.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,6 +87,9 @@ public class MainApp extends Application {
      */
     public void handleExit() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
+        if (contr.dm.isSelected()) {
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+        }
         alert.setTitle("Confirm Exit");
         alert.setHeaderText("Are you sure you want to exit?");
         alert.getDialogPane().setContent(new CheckBox("Don't ask again"));
