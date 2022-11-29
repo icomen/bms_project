@@ -48,7 +48,7 @@ public class RootLayoutController {
     @FXML
     private void handleAbout() {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("BMS App");
+        alert.setTitle("About BMS App");
         alert.setHeaderText("About");
 
         alert.setContentText("Author: Enrico Castrechini & Micaela Rivas\nWebsite: http://www.unicas.it");
