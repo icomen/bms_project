@@ -59,7 +59,7 @@
                </graphic>
             </JFXButton>
             <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" opacity="0.0" prefHeight="51.0" prefWidth="66.0" text="Button" />
-            <JFXToggleButton fx:id="boton" contentDisplay="GRAPHIC_ONLY" onAction="#setDarkMode" text="dark_mode" unToggleLineColor="BLACK" />
+            <JFXToggleButton fx:id="dm" contentDisplay="GRAPHIC_ONLY" onAction="#setDarkMode" text="dark_mode" unToggleLineColor="BLACK" />
          </children>
       </VBox>
    </left>
