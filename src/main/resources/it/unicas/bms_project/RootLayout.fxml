@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.RootLayoutController">
    <left>
       <VBox prefHeight="400.0" prefWidth="50.0" styleClass="sidepane" stylesheets="@RootStyle.css" BorderPane.alignment="CENTER">
@@ -60,7 +59,7 @@
                </graphic>
             </JFXButton>
             <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" opacity="0.0" prefHeight="51.0" prefWidth="66.0" text="Button" />
-            <JFXToggleButton contentDisplay="GRAPHIC_ONLY" text="dark_mode" unToggleLineColor="BLACK" />
+            <JFXToggleButton contentDisplay="GRAPHIC_ONLY" unToggleLineColor="BLACK" />
          </children>
       </VBox>
    </left>

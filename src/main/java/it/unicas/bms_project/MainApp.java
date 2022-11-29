@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.prefs.Preferences;
 
+
+
+
+
 public class MainApp extends Application {
 
     private Stage primaryStage;
@@ -89,10 +93,6 @@ public class MainApp extends Application {
         alert.setHeaderText("Are you sure you want to exit?");
         alert.getDialogPane().setContent(new CheckBox("Don't ask again"));
 
-
-
-
-
         ButtonType buttonTypeOne = new ButtonType("Exit");
 
         ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -129,6 +129,7 @@ public class MainApp extends Application {
     }
 /*
     public void setDarkMode() {
+
         checkMenuItem.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
             if (isSelected) {
                 scene.getStyleSheets().add("DarkTheme.css");
