@@ -1,15 +1,13 @@
 package it.unicas.bms_project;
 
+import com.jfoenix.controls.JFXToggleButton;
 import it.unicas.bms_project.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -127,17 +125,9 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-/*
-    public void setDarkMode() {
-        checkMenuItem.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
-            if (isSelected) {
-                scene.getStyleSheets().add("DarkTheme.css");
-            } else {
-                scene.getStyleSheets().remove("DarkTheme.css");
-            }
-        });
-    }
-*/
+
+
+
 /*
     public boolean showSettingsEditDialog() {
         try {

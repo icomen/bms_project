@@ -1,6 +1,7 @@
 package it.unicas.bms_project;
 
 
+import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -11,6 +12,11 @@ import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import com.jfoenix.controls.JFXToggleButton;
+
+
+
+
 
 /**
  * The controller for the root layout. The root layout provides the basic
@@ -24,6 +30,8 @@ public class RootLayoutController {
 
     // Reference to the main application
     private MainApp mainApp;
+    @FXML
+    private JFXToggleButton boton;
 
 
     /**
@@ -52,14 +60,28 @@ public class RootLayoutController {
         alert.showAndWait();
     }
 
+
     /**
      * Closes the application.
      */
+
     @FXML
     private void handleExit() {
 
         mainApp.handleExit();
 
+    }
+
+    @FXML
+    public void setDarkMode() {
+        Boolean isSelected;
+        isSelected = boton.isSelected();
+            if (isSelected) {
+                boton.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+            }
+            else {
+                boton.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
+            }
     }
 
 }
