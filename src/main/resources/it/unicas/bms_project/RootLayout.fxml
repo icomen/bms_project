@@ -11,7 +11,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.RootLayoutController">
    <left>
-      <VBox prefHeight="400.0" prefWidth="50.0" styleClass="sidepane" stylesheets="@RootStyle.css" BorderPane.alignment="CENTER">
+      <VBox styleClass="sidepane" stylesheets="@RootStyle.css">
          <children>
             <Pane onMouseClicked="#handleAbout" prefHeight="57.0" prefWidth="62.0">
                <children>
