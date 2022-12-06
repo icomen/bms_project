@@ -93,6 +93,10 @@ public class RootLayoutController {
                 mainApp.BMScontroller.statusTile.setBackgroundColor(Color.rgb(0,0,0));
                 mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(255, 255, 255));
                 mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(255, 255, 255));
+
+                mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.BLACK);
+                mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.WHITE);
+
             }
             else {
                 dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
@@ -109,6 +113,9 @@ public class RootLayoutController {
                 mainApp.BMScontroller.statusTile.setBackgroundColor(Color.rgb(255,255,255));
                 mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(0, 0, 0));
                 mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(0, 0, 0));
+
+                mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.WHITE);
+                mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.BLACK);
             }
     }
 

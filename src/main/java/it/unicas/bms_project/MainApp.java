@@ -25,6 +25,7 @@ public class MainApp extends Application {
 
     public static RootLayoutController Rootcontroller;
     public static BmsOverviewController BMScontroller;
+    public static MeasuresViewController MeasuresController;
 
 
 
