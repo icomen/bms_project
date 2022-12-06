@@ -1,140 +1,170 @@
 package it.unicas.bms_project;
 
-// Reference to the main application.
-
-
-import com.jfoenix.controls.JFXProgressBar;
-import com.jfoenix.controls.JFXToggleButton;
+import eu.hansolo.medusa.Gauge;
+import eu.hansolo.medusa.GaugeBuilder;
+import eu.hansolo.medusa.Section;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
-import eu.hansolo.tilesfx.skins.GaugeSparkLineTileSkin;
-import javafx.beans.value.ObservableValue;
+import eu.hansolo.tilesfx.addons.Indicator;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Stop;
-import javafx.util.Callback;
+import javafx.scene.text.TextAlignment;
+
+import java.util.Random;
 
 public class BmsOverviewController {
-
     private MainApp mainApp;
+    private static final Random RND = new Random();
+    public Tile fireSmokeTile;
+    public Gauge batteryGauge;
+    public Tile statusTile;
+
+    private Indicator leftGraphics = new Indicator();
+    private Indicator middleGraphics = new Indicator();
+    private Indicator rightGraphics = new Indicator();
+
+    public static final int TILE_WIDTH = 200;
+    public static final int TILE_HEIGHT = 300;
 
     @FXML
-    private GridPane bar;
-
+    private GridPane pane;
     @FXML
-    private Label temp;
+    public ImageView blackImage;
+    @FXML
+    public ImageView whiteImage;
 
-    private Tile gaugeSparklineTile;
+    private Gauge gaucheTemperature;
 
 
 
-
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
     public BmsOverviewController() {
+
     }
 
-    private void createGaugeSparklineTile() {
 
-        gaugeSparklineTile = TileBuilder.create()
-                .skinType(Tile.SkinType.GAUGE_SPARK_LINE)
-                .prefSize(300, 300)
-                .title("Temperature")
+    @FXML
+    private void changeTemperature () {
+        double x = RND.nextDouble() * 100;
+        fireSmokeTile.setValue(x);
+        if (x>60) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            if (MainApp.Rootcontroller.dm.isSelected()) {
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+            }
+            alert.setTitle("DANGER");
+            alert.setHeaderText("Temperature above 60ºC!!");
+            alert.showAndWait();
+        }
+    }
 
+    @FXML
+    private void changeBattery () {
+        double x = RND.nextDouble() * 100;
+        batteryGauge.setValue(x);
+        if (x<10) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            if (MainApp.Rootcontroller.dm.isSelected()) {
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+            }
+            alert.setTitle("WARNING");
+            alert.setHeaderText("Battery level below 10%");
+            alert.showAndWait();
+        }
+
+    }
+
+    @FXML
+    private void changeAlerts () {
+        int r = (int) (RND.nextDouble() * 5);
+        int m = (int) (RND.nextDouble() * 5);
+        int l = (int) (RND.nextDouble() * 5);
+        rightGraphics.setOn(r>0);
+        statusTile.setRightValue(r);
+        middleGraphics.setOn(m>0);
+        statusTile.setMiddleValue(m);
+        leftGraphics.setOn(l>0);
+        statusTile.setLeftValue(l);
+    }
+
+
+    @FXML
+    private void initialize() {
+        createTile();
+        pane.add(fireSmokeTile, 3, 0);
+        whiteImage.setOpacity(1);
+        blackImage.setOpacity(0);
+        pane.add(batteryGauge, 1, 2);
+        pane.add(statusTile, 1, 0);
+
+    }
+
+    private void createTile() {
+        fireSmokeTile = TileBuilder.create().skinType(Tile.SkinType.FIRE_SMOKE)
+                .prefSize(TILE_WIDTH+145, TILE_HEIGHT+145)
+                .title("Temperature sensor")
+                .titleAlignment(TextAlignment.CENTER)
+                .unit("\u00b0C")
+                .threshold(40) // triggers the fire and smoke effect
+                .decimals(2)
                 .animated(true)
-                .textVisible(false)
-                .averagingPeriod(25)
-                .autoReferenceValue(true)
+                .backgroundColor(Color.rgb(255, 255, 255))
+                .titleColor(Color.rgb(0, 0, 0))
+                .valueColor(Color.rgb(0, 0, 0))
+                .unitColor(Color.rgb(0, 0, 0))
+                .build();
 
-
-                .barColor(Tile.YELLOW_ORANGE)
-                .barBackgroundColor(Color.rgb(255, 255, 255, 0.1))
-                .sections(
-                        new eu.hansolo.tilesfx.Section(0, 33, Tile.LIGHT_GREEN),
-                        new eu.hansolo.tilesfx.Section(33, 67, Tile.YELLOW),
-                        new eu.hansolo.tilesfx.Section(67, 100, Tile.LIGHT_RED))
+        batteryGauge = GaugeBuilder.create()
+                .skinType(Gauge.SkinType.BATTERY)
+                .animated(true)
                 .sectionsVisible(true)
-                .highlightSections(true)
-                .strokeWithGradient(true)
-                .fixedYScale(false)
-                .gradientStops(new Stop(0.0, Tile.LIGHT_GREEN),
-                        new Stop(0.33, Tile.LIGHT_GREEN),
-                        new Stop(0.33,Tile.YELLOW),
-                        new Stop(0.67, Tile.YELLOW),
-                        new Stop(0.67, Tile.LIGHT_RED),
-                        new Stop(1.0, Tile.LIGHT_RED))
+                .sections(new Section(0, 10, Color.rgb(200, 0, 0, 0.8)),
+                        new Section(10, 30, Color.rgb(200, 200, 0, 0.8)),
+                        new Section(30, 100, Color.rgb(0, 200, 0, 0.8)))
+                .foregroundBaseColor(Color.rgb(0, 0, 0))
+                .barBackgroundColor(Color.rgb(0, 0, 0))
+                .build();
 
-                .valueColor(Color.RED)
-                .unit("C")
-                .smoothing(true)
+        gaucheTemperature = GaugeBuilder.create()
+                //.skinType(Gauge.SkinType.LCD)
+                //.skinType(Gauge.SkinType.SIMPLE_DIGITAL)
+                .skinType(Gauge.SkinType.PLAIN_AMP)
+                //.skinType(Gauge.SkinType.LINEAR)
+                //.skinType(Gauge.SkinType.DIGITAL)
+
+                .build();
+
+        rightGraphics.setDotOffColor(Tile.GREEN);
+        rightGraphics.setDotOnColor(Tile.RED);
+        rightGraphics.setOn(false);
+        middleGraphics.setDotOffColor(Tile.GREEN);
+        middleGraphics.setDotOnColor(Tile.RED);
+        middleGraphics.setOn(false);
+        leftGraphics.setDotOffColor(Tile.GREEN);
+        leftGraphics.setDotOnColor(Tile.RED);
+        leftGraphics.setOn(false);
+        statusTile = TileBuilder.create()
+                .skinType(Tile.SkinType.STATUS)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                .title("Alerts overview")
+                .titleAlignment(TextAlignment.CENTER)
+                .leftText("Voltage alert")
+                .middleText("Current alert")
+                .rightText("Temperature alert")
+                .leftGraphics(leftGraphics)
+                .middleGraphics(middleGraphics)
+                .rightGraphics(rightGraphics)
+                .backgroundColor(Color.rgb(255, 255, 255))
+                .titleColor(Color.rgb(0, 0, 0))
+                .foregroundColor(Color.rgb(0, 0, 0))
                 .build();
     }
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
-    @FXML
-    private void initialize() {
-        createGaugeSparklineTile();
-        bar.add(gaugeSparklineTile, 1, 0);
-
-    }
-
-
-    /*
-    @FXML
-    private void changeColor() {
-        double progress = bar.getProgress();
-        String temperature = String.valueOf(progress*100);
-        temp.setText(temperature + "ºC");
-        if(progress<0.6) {
-            //bar.getStylesheets().clear()
-            // bar.getStylesheets().add(getClass().getResource("BarStyle1.css").toString());
-        } else if (progress<0.8) {
-            bar.getStylesheets().clear();
-            bar.getStylesheets().add(getClass().getResource("BarStyle2.css").toString());
-        }
-        else {
-            bar.getStylesheets().clear();
-            bar.getStylesheets().add(getClass().getResource("BarStyle3.css").toString());
-        }
-
-    }
-
-
-
-    @FXML
-    private void mover(){
-        bar.setProgress(bar.getProgress()+0.1);
-        changeColor();
-    }
-
-    @FXML
-    private void mover2(){
-        bar.setProgress(bar.getProgress()-0.1);
-        changeColor();
-    }
-
-     */
-
-
-    /**
-     * Is called by the main application to give a reference back to itself.
-     *
-     * @param mainApp
-     */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 
     }
-
-
 
 }

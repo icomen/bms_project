@@ -1,21 +1,11 @@
 package it.unicas.bms_project;
 
 
-import javafx.beans.property.BooleanProperty;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-import com.jfoenix.controls.JFXToggleButton;
-
-
-
+import javafx.scene.paint.Color;
 
 
 /**
@@ -75,14 +65,50 @@ public class RootLayoutController {
     }
 
     @FXML
+    private void showBmsOverview() {
+        mainApp.showBmsOverview();
+    }
+
+    @FXML
+    private void showSourceView() {
+        mainApp.showSourceView();
+    }
+
+    @FXML
     public void setDarkMode() {
         Boolean isSelected;
         isSelected = dm.isSelected();
             if (isSelected) {
                 dm.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+                mainApp.BMScontroller.fireSmokeTile.setBackgroundColor(Color.rgb(0,0,0));
+                mainApp.BMScontroller.fireSmokeTile.setValueColor(Color.rgb(255, 255, 255));
+                mainApp.BMScontroller.fireSmokeTile.setUnitColor(Color.rgb(255, 255, 255));
+                mainApp.BMScontroller.fireSmokeTile.setTitleColor(Color.rgb(255, 255, 255));
+
+                mainApp.BMScontroller.whiteImage.setOpacity(0);
+                mainApp.BMScontroller.blackImage.setOpacity(1);
+                mainApp.BMScontroller.batteryGauge.setForegroundBaseColor(Color.rgb(255, 255, 255));
+                mainApp.BMScontroller.batteryGauge.setBarBackgroundColor(Color.rgb(255, 255, 255));
+
+                mainApp.BMScontroller.statusTile.setBackgroundColor(Color.rgb(0,0,0));
+                mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(255, 255, 255));
+                mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(255, 255, 255));
             }
             else {
                 dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
+                mainApp.BMScontroller.fireSmokeTile.setBackgroundColor(Color.rgb(255,255,255));
+                mainApp.BMScontroller.fireSmokeTile.setValueColor(Color.rgb(0, 0, 0));
+                mainApp.BMScontroller.fireSmokeTile.setUnitColor(Color.rgb(0, 0, 0));
+                mainApp.BMScontroller.fireSmokeTile.setTitleColor(Color.rgb(0,0,0));
+
+                mainApp.BMScontroller.whiteImage.setOpacity(1);
+                mainApp.BMScontroller.blackImage.setOpacity(0);
+                mainApp.BMScontroller.batteryGauge.setForegroundBaseColor(Color.rgb(0, 0, 0));
+                mainApp.BMScontroller.batteryGauge.setBarBackgroundColor(Color.rgb(0, 0, 0));
+
+                mainApp.BMScontroller.statusTile.setBackgroundColor(Color.rgb(255,255,255));
+                mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(0, 0, 0));
+                mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(0, 0, 0));
             }
     }
 

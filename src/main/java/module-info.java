@@ -6,6 +6,10 @@ module it.unicas.bms_project {
     requires com.jfoenix;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.hivemq.client.mqtt;
+    requires eu.hansolo.medusa;
 
 
     opens it.unicas.bms_project to javafx.fxml;

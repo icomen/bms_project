@@ -1,33 +1,30 @@
 package it.unicas.bms_project;
 
-import com.jfoenix.controls.JFXToggleButton;
-import it.unicas.bms_project.RootLayoutController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.prefs.Preferences;
 
 public class MainApp extends Application {
 
     private Stage primaryStage;
+    private Stage inputStage;
     private BorderPane rootLayout;
 
-    RootLayoutController contr;
+    private BorderPane inputStartView;
+
+    public static RootLayoutController Rootcontroller;
+    public static BmsOverviewController BMScontroller;
 
 
 
@@ -39,16 +36,31 @@ public class MainApp extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage inputStage) {
+        this.inputStage = inputStage;
+        this.inputStage.setTitle("Welcome BMS App");
+
+        // Set the application icon.
+        this.inputStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
+
+        showInputStartView();
+
+
+        this.inputStage.show();
+
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("BMS App");
 
         // Set the application icon.
         this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
+        this.primaryStage.setWidth(800);
+        this.primaryStage.setHeight(500);
 
         initRootLayout();
         showBmsOverview();
-
 
         this.primaryStage.show();
 
@@ -78,8 +90,8 @@ public class MainApp extends Application {
 
 
             // Give the controller access to the main app.
-            contr = loader.getController();
-            contr.setMainApp(this);
+            Rootcontroller = loader.getController();
+            Rootcontroller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,15 +102,12 @@ public class MainApp extends Application {
      */
     public void handleExit() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        if (contr.dm.isSelected()) {
+        if (Rootcontroller.dm.isSelected()) {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
         }
         alert.setTitle("Confirm Exit");
         alert.setHeaderText("Are you sure you want to exit?");
         alert.getDialogPane().setContent(new CheckBox("Don't ask again"));
-
-
-
 
 
         ButtonType buttonTypeOne = new ButtonType("Exit");
@@ -114,9 +123,15 @@ public class MainApp extends Application {
 
     }
 
+    public void simpleExit() {
+        System.exit(0);
+
+    }
+
     /**
      * Shows the BMS overview inside the root layout.
      */
+
     public void showBmsOverview() {
         try {
             // Load BMS overview.
@@ -128,7 +143,27 @@ public class MainApp extends Application {
 
 
             // Give the controller access to the main app.
-            BmsOverviewController controller = loader.getController();
+            BMScontroller = loader.getController();
+            BMScontroller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void showSourceView() {
+        try {
+            // Load BMS overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("SourceView.fxml"));
+
+            // Set BMS overview into the center of root layout.
+            rootLayout.setCenter(loader.load());
+
+
+            // Give the controller access to the main app.
+            SourceViewController controller = loader.getController();
             controller.setMainApp(this);
 
         } catch (IOException e) {
@@ -136,47 +171,31 @@ public class MainApp extends Application {
         }
     }
 
-
-
-/*
-    public boolean showSettingsEditDialog() {
+    public void showInputStartView() {
         try {
+            // Load BMS overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("InputEditDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("InputStartView.fxml"));
+            inputStartView = loader.load();
 
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("DAO settings");
-            dialogStage.initModality((Modality.WINDOW_MODAL));
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(loader.load());
-            dialogStage.setScene(scene);
+            // Set BMS overview into the center of root layout.
+            //inputStartView.setCenter(loader.load());
+            Scene scene = new Scene(inputStartView);
+            inputStage.setScene(scene);
 
+            inputStage.setOnCloseRequest(event -> {
+                event.consume();
+                simpleExit();
+            });
 
-            // Set the colleghi into the controller.
-            SettingsEditDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setSettings(daoMySQLSettings);
-
-            // Set the dialog icon.
-            dialogStage.getIcons().add(new Image("file:resources/images/edit.png"));
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-
-            return controller.isOkClicked();
+            // Give the controller access to the main app.
+            InputStartViewController controller = loader.getController();
+            controller.setMainApp(this);
 
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
     }
-*/
-
-
-
-
-
 
     /**
      * Returns the main stage.
@@ -184,6 +203,10 @@ public class MainApp extends Application {
      */
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public Stage getInputStage() {
+        return inputStage;
     }
 
     public static void main(String[] args) {
