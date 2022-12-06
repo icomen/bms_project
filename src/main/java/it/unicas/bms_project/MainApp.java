@@ -153,6 +153,26 @@ public class MainApp extends Application {
 
     }
 
+    public void showMeasuresView() {
+        try {
+            // Load BMS overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("MeasuresView.fxml"));
+
+            // Set BMS overview into the center of root layout.
+            rootLayout.setCenter(loader.load());
+
+
+            // Give the controller access to the main app.
+            MeasuresController = loader.getController();
+            MeasuresController.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void showSourceView() {
         try {
             // Load BMS overview.

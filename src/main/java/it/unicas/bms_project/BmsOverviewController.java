@@ -99,6 +99,7 @@ public class BmsOverviewController {
     }
 
     private void createTile() {
+
         Color backgroundColor;
         Color foregroundColor;
         if (mainApp.Rootcontroller.dm.isSelected()) {

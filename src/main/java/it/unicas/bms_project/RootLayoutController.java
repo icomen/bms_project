@@ -75,6 +75,11 @@ public class RootLayoutController {
     }
 
     @FXML
+    private void showMeasuresView() {
+        mainApp.showMeasuresView();
+    }
+
+    @FXML
     public void setDarkMode() {
         Boolean isSelected;
         isSelected = dm.isSelected();
