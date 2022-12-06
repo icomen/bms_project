@@ -78,45 +78,36 @@ public class RootLayoutController {
     public void setDarkMode() {
         Boolean isSelected;
         isSelected = dm.isSelected();
+        Color backgroundColor;
+        Color foregroundColor;
             if (isSelected) {
                 dm.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
-                mainApp.BMScontroller.fireSmokeTile.setBackgroundColor(Color.rgb(0,0,0));
-                mainApp.BMScontroller.fireSmokeTile.setValueColor(Color.rgb(255, 255, 255));
-                mainApp.BMScontroller.fireSmokeTile.setUnitColor(Color.rgb(255, 255, 255));
-                mainApp.BMScontroller.fireSmokeTile.setTitleColor(Color.rgb(255, 255, 255));
-
+                backgroundColor = Color.rgb(0,0,0);
+                foregroundColor = Color.rgb(255, 255, 255);
                 mainApp.BMScontroller.whiteImage.setOpacity(0);
                 mainApp.BMScontroller.blackImage.setOpacity(1);
-                mainApp.BMScontroller.batteryGauge.setForegroundBaseColor(Color.rgb(255, 255, 255));
-                mainApp.BMScontroller.batteryGauge.setBarBackgroundColor(Color.rgb(255, 255, 255));
-
-                mainApp.BMScontroller.statusTile.setBackgroundColor(Color.rgb(0,0,0));
-                mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(255, 255, 255));
-                mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(255, 255, 255));
-
-                //mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.BLACK);
-                //mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.WHITE);
-
             }
             else {
                 dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
-                mainApp.BMScontroller.fireSmokeTile.setBackgroundColor(Color.rgb(255,255,255));
-                mainApp.BMScontroller.fireSmokeTile.setValueColor(Color.rgb(0, 0, 0));
-                mainApp.BMScontroller.fireSmokeTile.setUnitColor(Color.rgb(0, 0, 0));
-                mainApp.BMScontroller.fireSmokeTile.setTitleColor(Color.rgb(0,0,0));
-
+                foregroundColor = Color.rgb(0,0,0);
+                backgroundColor = Color.rgb(255, 255, 255);
                 mainApp.BMScontroller.whiteImage.setOpacity(1);
                 mainApp.BMScontroller.blackImage.setOpacity(0);
-                mainApp.BMScontroller.batteryGauge.setForegroundBaseColor(Color.rgb(0, 0, 0));
-                mainApp.BMScontroller.batteryGauge.setBarBackgroundColor(Color.rgb(0, 0, 0));
-
-                mainApp.BMScontroller.statusTile.setBackgroundColor(Color.rgb(255,255,255));
-                mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(0, 0, 0));
-                mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(0, 0, 0));
-
-                //mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.WHITE);
-                //mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.BLACK);
             }
+        mainApp.BMScontroller.fireSmokeTile.setBackgroundColor(backgroundColor);
+        mainApp.BMScontroller.fireSmokeTile.setValueColor(foregroundColor);
+        mainApp.BMScontroller.fireSmokeTile.setUnitColor(foregroundColor);
+        mainApp.BMScontroller.fireSmokeTile.setTitleColor(foregroundColor);
+
+        mainApp.BMScontroller.batteryGauge.setForegroundBaseColor(foregroundColor);
+        mainApp.BMScontroller.batteryGauge.setBarBackgroundColor(foregroundColor);
+
+        mainApp.BMScontroller.statusTile.setBackgroundColor(backgroundColor);
+        mainApp.BMScontroller.statusTile.setTitleColor(foregroundColor);
+        mainApp.BMScontroller.statusTile.setForegroundColor(foregroundColor);
+
+        //mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(backgroundColor);
+        //mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(foregroundColor);
     }
 
 }

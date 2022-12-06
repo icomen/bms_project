@@ -94,13 +94,25 @@ public class BmsOverviewController {
     private void initialize() {
         createTile();
         pane.add(fireSmokeTile, 3, 0);
-        whiteImage.setOpacity(1);
-        blackImage.setOpacity(0);
         pane.add(batteryGauge, 1, 2);
         pane.add(statusTile, 1, 0);
     }
 
     private void createTile() {
+        Color backgroundColor;
+        Color foregroundColor;
+        if (mainApp.Rootcontroller.dm.isSelected()) {
+            backgroundColor = Color.rgb(0, 0, 0);
+            foregroundColor = Color.rgb(255, 255, 255);
+            whiteImage.setOpacity(0);
+            blackImage.setOpacity(1);
+        }
+        else {
+            foregroundColor = Color.rgb(0, 0, 0);
+            backgroundColor = Color.rgb(255, 255, 255);
+            whiteImage.setOpacity(1);
+            blackImage.setOpacity(0);
+        }
         fireSmokeTile = TileBuilder.create().skinType(Tile.SkinType.FIRE_SMOKE)
                 .prefSize(TILE_WIDTH+145, TILE_HEIGHT+145)
                 .title("Temperature sensor")
@@ -109,10 +121,10 @@ public class BmsOverviewController {
                 .threshold(40) // triggers the fire and smoke effect
                 .decimals(2)
                 .animated(true)
-                .backgroundColor(Color.rgb(255, 255, 255))
-                .titleColor(Color.rgb(0, 0, 0))
-                .valueColor(Color.rgb(0, 0, 0))
-                .unitColor(Color.rgb(0, 0, 0))
+                .backgroundColor(backgroundColor)
+                .titleColor(foregroundColor)
+                .valueColor(foregroundColor)
+                .unitColor(foregroundColor)
                 .build();
 
         batteryGauge = GaugeBuilder.create()
@@ -122,8 +134,8 @@ public class BmsOverviewController {
                 .sections(new Section(0, 10, Color.rgb(200, 0, 0, 0.8)),
                         new Section(10, 30, Color.rgb(200, 200, 0, 0.8)),
                         new Section(30, 100, Color.rgb(0, 200, 0, 0.8)))
-                .foregroundBaseColor(Color.rgb(0, 0, 0))
-                .barBackgroundColor(Color.rgb(0, 0, 0))
+                .foregroundBaseColor(foregroundColor)
+                .barBackgroundColor(foregroundColor)
                 .build();
 
 
@@ -148,9 +160,9 @@ public class BmsOverviewController {
                 .leftGraphics(leftGraphics)
                 .middleGraphics(middleGraphics)
                 .rightGraphics(rightGraphics)
-                .backgroundColor(Color.rgb(255, 255, 255))
-                .titleColor(Color.rgb(0, 0, 0))
-                .foregroundColor(Color.rgb(0, 0, 0))
+                .backgroundColor(backgroundColor)
+                .titleColor(foregroundColor)
+                .foregroundColor(foregroundColor)
                 .build();
     }
 
