@@ -20,6 +20,7 @@ public class MeasuresViewController extends FlowGridPane {
                 .sections(new Section(0, 40, Color.rgb(0, 200, 0, 0.8)),
                         new Section(40, 60, Color.rgb(200, 200, 0, 0.8)),
                         new Section(60, 100, Color.rgb(200, 0, 0, 0.8)))
+                .ledOn(false)
                 .build();
     }
 

@@ -36,8 +36,6 @@ public class BmsOverviewController {
     @FXML
     public ImageView whiteImage;
 
-    private Gauge gaucheTemperature;
-
 
 
     public BmsOverviewController() {
@@ -49,9 +47,7 @@ public class BmsOverviewController {
     private void changeTemperature () {
         double x = RND.nextDouble() * 100;
         fireSmokeTile.setValue(x);
-        gaucheTemperature.setValue(x);
         if (x>60) {
-            gaucheTemperature.setLedOn(true);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             if (MainApp.Rootcontroller.dm.isSelected()) {
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
@@ -61,9 +57,6 @@ public class BmsOverviewController {
             alert.showAndWait();
         }
 
-        else {
-            gaucheTemperature.setLedOn(false);
-        }
     }
 
     @FXML
@@ -105,7 +98,6 @@ public class BmsOverviewController {
         blackImage.setOpacity(0);
         pane.add(batteryGauge, 1, 2);
         pane.add(statusTile, 1, 0);
-        //pane.add(gaucheTemperature, 3, 2);
     }
 
     private void createTile() {
@@ -134,15 +126,6 @@ public class BmsOverviewController {
                 .barBackgroundColor(Color.rgb(0, 0, 0))
                 .build();
 
-
-            gaucheTemperature = GaugeBuilder.create()
-                    .skinType(Gauge.SkinType.PLAIN_AMP)
-                    .sectionsVisible(true)
-                    .sections(new Section(0, 40, Color.rgb(0, 200, 0, 0.8)),
-                            new Section(40, 60, Color.rgb(200, 200, 0, 0.8)),
-                            new Section(60, 100, Color.rgb(200, 0, 0, 0.8)))
-                    .ledOn(false)
-                    .build();
 
 
         rightGraphics.setDotOffColor(Tile.GREEN);

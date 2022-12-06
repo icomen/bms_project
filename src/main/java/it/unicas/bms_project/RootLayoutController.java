@@ -94,8 +94,8 @@ public class RootLayoutController {
                 mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(255, 255, 255));
                 mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(255, 255, 255));
 
-                mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.BLACK);
-                mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.WHITE);
+                //mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.BLACK);
+                //mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.WHITE);
 
             }
             else {
@@ -114,8 +114,8 @@ public class RootLayoutController {
                 mainApp.BMScontroller.statusTile.setTitleColor(Color.rgb(0, 0, 0));
                 mainApp.BMScontroller.statusTile.setForegroundColor(Color.rgb(0, 0, 0));
 
-                mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.WHITE);
-                mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.BLACK);
+                //mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(Color.WHITE);
+                //mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(Color.BLACK);
             }
     }
 
