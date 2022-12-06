@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 
 import java.util.Random;
@@ -98,7 +99,7 @@ public class BmsOverviewController {
         blackImage.setOpacity(0);
         pane.add(batteryGauge, 1, 2);
         pane.add(statusTile, 1, 0);
-
+        pane.add(gaucheTemperature, 3, 2);
     }
 
     private void createTile() {
@@ -128,13 +129,11 @@ public class BmsOverviewController {
                 .build();
 
         gaucheTemperature = GaugeBuilder.create()
-                //.skinType(Gauge.SkinType.LCD)
-                //.skinType(Gauge.SkinType.SIMPLE_DIGITAL)
                 .skinType(Gauge.SkinType.PLAIN_AMP)
-                //.skinType(Gauge.SkinType.LINEAR)
-                //.skinType(Gauge.SkinType.DIGITAL)
-
                 .build();
+
+        Paint backgroundPaint = gaucheTemperature.getBackgroundPaint() instanceof Color ? gaucheTemperature.getBackgroundPaint() : Color.BLACK;
+        gaucheTemperature.setBackgroundPaint(backgroundPaint);
 
         rightGraphics.setDotOffColor(Tile.GREEN);
         rightGraphics.setDotOnColor(Tile.RED);

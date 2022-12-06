@@ -16,11 +16,8 @@ public class MeasuresViewController extends FlowGridPane {
     public MeasuresViewController(int NO_OF_COLS, int NO_OF_ROWS) {
         super(NO_OF_COLS, NO_OF_ROWS);
         gaucheTemperature = GaugeBuilder.create()
-                //.skinType(Gauge.SkinType.LCD)
-                //.skinType(Gauge.SkinType.SIMPLE_DIGITAL)
                 .skinType(Gauge.SkinType.PLAIN_AMP)
-                //.skinType(Gauge.SkinType.LINEAR)
-                //.skinType(Gauge.SkinType.DIGITAL)
+
 
                 .build();
     }
