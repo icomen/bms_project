@@ -10,6 +10,7 @@ module it.unicas.bms_project {
     requires com.fasterxml.jackson.databind;
     requires com.hivemq.client.mqtt;
     requires eu.hansolo.medusa;
+    requires com.opencsv;
 
 
     opens it.unicas.bms_project to javafx.fxml;

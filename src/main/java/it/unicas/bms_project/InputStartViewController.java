@@ -1,14 +1,13 @@
 package it.unicas.bms_project;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+
 
 public class InputStartViewController {
 
@@ -23,10 +22,28 @@ public class InputStartViewController {
     private TextField modules;
     @FXML
     private TextField sample;
+
     @FXML
-    private TextField path;
+    private Button dir;
+
+    @FXML
+    private Label labelSelectedDirectory;
+
+    @FXML
+    private MenuButton sourceSelection;
+
+    @FXML
+    private MenuItem csv;
+
+    @FXML
+    private ChoiceBox<String> choiceBox;
+
+    private File selectedFile;
+
+    private String[] current_measurements = {"Current measurements (yes)\n", "Current measurements (no)\n"};
 
     private boolean okClicked = false;
+
 
     /**
      * Is called by the main application to give a reference back to itself.
@@ -38,13 +55,18 @@ public class InputStartViewController {
     }
 
     @FXML
+    public void initialize() {
+        choiceBox.getItems().addAll(current_measurements);
+    }
+
+    @FXML
     private void simpleExit() {
         mainApp.simpleExit();
 
     }
 
     @FXML
-    private void setPrimaryStage() {
+    private void setPrimaryStage() throws IOException {
         mainApp.setPrimaryStage(mainApp.getInputStage());
     }
 
@@ -62,7 +84,7 @@ public class InputStartViewController {
      * Called when the user clicks ok.
      */
     @FXML
-    private void handleOk() {
+    private void handleOk() throws IOException {
         if (isInputValid()) {
             //settings.setHost(hostField.getText());
             //settings.setUserName(usernameField.getText());
@@ -74,7 +96,9 @@ public class InputStartViewController {
                 out.println(sensors.getText());
                 out.println(modules.getText());
                 out.println(sample.getText());
-                out.println(path.getText());
+                //out.println(path.getText());
+                out.println(labelSelectedDirectory.getText());
+                out.println(choiceBox.getValue());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -106,11 +130,18 @@ public class InputStartViewController {
         if (sample.getText() == null || sample.getText().length() == 0){
             errorMessage += "No valid sample time!\n";
         }
-        if (path.getText() == null || path.getText().length() == 0){
+        if (labelSelectedDirectory.getText() == null || labelSelectedDirectory.getText() == "No Directory selected" || labelSelectedDirectory.getText().length() == 0){
             errorMessage += "No valid output file path!\n";
         }
+        if((choiceBox.getValue() == null) || (choiceBox.getValue() != ("Current measurements (yes)\n") && choiceBox.getValue() != ("Current measurements (no)\n"))) {
+            errorMessage += "No valid choise!\n";
+        }
+        /*
+        if(selectedFile == null) {
+            errorMessage += "No valid source!\n";
+        }
 
-
+         */
 
         if (errorMessage.length() == 0) {
             return true;
@@ -127,5 +158,51 @@ public class InputStartViewController {
             return false;
         }
     }
+    @FXML
+    private void directoryChooser() {
+        labelSelectedDirectory.setText("Select Output file path");
+
+        dir.setOnAction(event -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            File selectedDirectory =
+                    directoryChooser.showDialog(mainApp.getInputStage());
+
+            if(selectedDirectory == null){
+                labelSelectedDirectory.setText("No Directory selected");
+            }else{
+                labelSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
+            }
+        });
+
+    }
+
+    @FXML
+    private void fileChooser() {
+        csv.setText("Select CSV file path");
+        csv.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+            selectedFile = fileChooser.showOpenDialog(mainApp.getInputStage());
+
+            if (selectedFile == null) {
+                System.out.println("No File selected");
+
+            }
+            else {
+                CsvReader csvReader = new CsvReader();
+                try {
+                    csvReader.readLineByLine(selectedFile.toPath());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("Lettura CSV effettuata");
+                System.out.println(selectedFile.toPath());
+                //selectedFile.getAbsolutePath();
+                //mainApp.getInputStage().display(selectedFile);
+            }
+        });
+    }
+
 
 }

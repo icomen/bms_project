@@ -12,7 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.Objects;
 import java.util.Optional;
 
 public class MainApp extends Application {
@@ -20,8 +21,14 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private Stage inputStage;
     private BorderPane rootLayout;
-
     private BorderPane inputStartView;
+
+    public static int nCells;
+    public static int nSensors;
+    public static int nModules;
+    public static int sampleTime;
+    public static String outputPath;
+    public static boolean currentMeasurements;
 
     public static RootLayoutController Rootcontroller;
     public static BmsOverviewController BMScontroller;
@@ -40,25 +47,36 @@ public class MainApp extends Application {
     public void start(Stage inputStage) {
         this.inputStage = inputStage;
         this.inputStage.setTitle("Welcome BMS App");
+        this.inputStage.setResizable(false);
 
         // Set the application icon.
         this.inputStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
 
         showInputStartView();
-
-
         this.inputStage.show();
 
     }
 
-    public void setPrimaryStage(Stage primaryStage) {
+    public void setPrimaryStage(Stage primaryStage) throws IOException {
+        File file = new File("/Users/mica/IdeaProjects/bms_project/myfile.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        nCells = Integer.parseInt(reader.readLine());
+        nSensors = Integer.parseInt(reader.readLine());
+        nModules = Integer.parseInt(reader.readLine());
+        sampleTime = Integer.parseInt(reader.readLine());
+        outputPath = reader.readLine();
+        currentMeasurements = Objects.equals(reader.readLine(), "Current measurements (yes)");
+        reader.close();
+
+
         this.primaryStage = primaryStage;
+        this.primaryStage.setResizable(true);
         this.primaryStage.setTitle("BMS App");
 
         // Set the application icon.
         this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
-        this.primaryStage.setWidth(800);
-        this.primaryStage.setHeight(500);
+        this.primaryStage.setWidth(900);
+        this.primaryStage.setHeight(650);
 
         initRootLayout();
         showBmsOverview();

@@ -6,14 +6,19 @@ import eu.hansolo.medusa.Section;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.addons.Indicator;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import static it.unicas.bms_project.MainApp.sampleTime;
 
 public class BmsOverviewController {
     private MainApp mainApp;
@@ -22,9 +27,9 @@ public class BmsOverviewController {
     public Gauge batteryGauge;
     public Tile statusTile;
 
-    private Indicator leftGraphics = new Indicator();
-    private Indicator middleGraphics = new Indicator();
-    private Indicator rightGraphics = new Indicator();
+    private final Indicator leftGraphics = new Indicator();
+    private final Indicator middleGraphics = new Indicator();
+    private final Indicator rightGraphics = new Indicator();
 
     public static final int TILE_WIDTH = 200;
     public static final int TILE_HEIGHT = 300;
@@ -45,48 +50,75 @@ public class BmsOverviewController {
 
     @FXML
     private void changeTemperature () {
-        double x = RND.nextDouble() * 100;
-        fireSmokeTile.setValue(x);
-        if (x>60) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            if (MainApp.Rootcontroller.dm.isSelected()) {
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
-            }
-            alert.setTitle("DANGER");
-            alert.setHeaderText("Temperature above 60ºC!!");
-            alert.showAndWait();
-        }
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> {
+                double x = RND.nextDouble() * 100;
+                fireSmokeTile.setValue(x);
+                /*
+                if (x>60) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    if (MainApp.Rootcontroller.dm.isSelected()) {
+                        alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+                    }
+                    alert.setTitle("DANGER");
+                    alert.setHeaderText("Temperature above 60ºC!!");
+                    alert.showAndWait();
+                }
+                */
+            });
+        }, 0, sampleTime, TimeUnit.SECONDS);
 
     }
 
     @FXML
     private void changeBattery () {
-        double x = RND.nextDouble() * 100;
-        batteryGauge.setValue(x);
-        if (x<10) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            if (MainApp.Rootcontroller.dm.isSelected()) {
-                alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-            }
-            alert.setTitle("WARNING");
-            alert.setHeaderText("Battery level below 10%");
-            alert.showAndWait();
-        }
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> {
+                double x = RND.nextDouble() * 100;
+                batteryGauge.setValue(x);
+                /*
+                if (x<10) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    if (MainApp.Rootcontroller.dm.isSelected()) {
+                        alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+
+                    }
+                    alert.setTitle("WARNING");
+                    alert.setHeaderText("Battery level below 10%");
+                    alert.showAndWait();
+                }
+                 */
+            });
+        }, 0, sampleTime, TimeUnit.SECONDS);
+
 
     }
 
     @FXML
     private void changeAlerts () {
-        int r = (int) (RND.nextDouble() * 5);
-        int m = (int) (RND.nextDouble() * 5);
-        int l = (int) (RND.nextDouble() * 5);
-        rightGraphics.setOn(r>0);
-        statusTile.setRightValue(r);
-        middleGraphics.setOn(m>0);
-        statusTile.setMiddleValue(m);
-        leftGraphics.setOn(l>0);
-        statusTile.setLeftValue(l);
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> {
+                int r = (int) (RND.nextDouble() * 5);
+                int m = (int) (RND.nextDouble() * 5);
+                int l = (int) (RND.nextDouble() * 5);
+                rightGraphics.setOn(r>0);
+                statusTile.setRightValue(r);
+                middleGraphics.setOn(m>0);
+                statusTile.setMiddleValue(m);
+                leftGraphics.setOn(l>0);
+                statusTile.setLeftValue(l);
+            });
+        }, 0, sampleTime, TimeUnit.SECONDS);
+
     }
 
 
@@ -99,7 +131,6 @@ public class BmsOverviewController {
     }
 
     private void createTile() {
-
         Color backgroundColor;
         Color foregroundColor;
         if (mainApp.Rootcontroller.dm.isSelected()) {

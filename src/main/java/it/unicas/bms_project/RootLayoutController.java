@@ -111,8 +111,9 @@ public class RootLayoutController {
         mainApp.BMScontroller.statusTile.setTitleColor(foregroundColor);
         mainApp.BMScontroller.statusTile.setForegroundColor(foregroundColor);
 
-        //mainApp.MeasuresController.gaucheTemperature.setBackgroundPaint(backgroundColor);
-        //mainApp.MeasuresController.gaucheTemperature.setForegroundBaseColor(foregroundColor);
+        if (mainApp.MeasuresController != null) {
+            mainApp.MeasuresController.setDarkMode(backgroundColor, foregroundColor);
+        }
     }
 
 }
