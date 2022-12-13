@@ -7,9 +7,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.List;
 
 
-public class InputStartViewController {
+public class InputStartViewController implements test {
 
     private MainApp mainApp;
 
@@ -22,13 +23,13 @@ public class InputStartViewController {
     private TextField modules;
     @FXML
     private TextField sample;
-
+    
     @FXML
     private Button dir;
 
     @FXML
     private Label labelSelectedDirectory;
-
+    
     @FXML
     private MenuButton sourceSelection;
 
@@ -38,7 +39,7 @@ public class InputStartViewController {
     @FXML
     private ChoiceBox<String> choiceBox;
 
-    private File selectedFile;
+    public static File selectedFile;
 
     private String[] current_measurements = {"Current measurements (yes)\n", "Current measurements (no)\n"};
 
@@ -57,6 +58,10 @@ public class InputStartViewController {
     @FXML
     public void initialize() {
         choiceBox.getItems().addAll(current_measurements);
+    }
+    @Override
+    public void pippo(List<BmsData> bmsDataList) {
+
     }
 
     @FXML
@@ -86,10 +91,7 @@ public class InputStartViewController {
     @FXML
     private void handleOk() throws IOException {
         if (isInputValid()) {
-            //settings.setHost(hostField.getText());
-            //settings.setUserName(usernameField.getText());
-            //settings.setPwd(passwordField.getText());
-            //settings.setSchema(schemaField.getText());
+
             try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("myfile.txt", true))))
             {
                 out.println(cells.getText());
@@ -106,6 +108,7 @@ public class InputStartViewController {
             okClicked = true;
             mainApp.getInputStage().close();
             setPrimaryStage();
+
         }
     }
 
@@ -136,12 +139,9 @@ public class InputStartViewController {
         if((choiceBox.getValue() == null) || (choiceBox.getValue() != ("Current measurements (yes)\n") && choiceBox.getValue() != ("Current measurements (no)\n"))) {
             errorMessage += "No valid choise!\n";
         }
-        /*
         if(selectedFile == null) {
             errorMessage += "No valid source!\n";
         }
-
-         */
 
         if (errorMessage.length() == 0) {
             return true;
@@ -178,6 +178,7 @@ public class InputStartViewController {
 
     @FXML
     private void fileChooser() {
+
         csv.setText("Select CSV file path");
         csv.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -185,22 +186,26 @@ public class InputStartViewController {
                     new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
             selectedFile = fileChooser.showOpenDialog(mainApp.getInputStage());
 
-            if (selectedFile == null) {
-                System.out.println("No File selected");
+        if (selectedFile == null) {
+            System.out.println("No File selected");
 
+        }
+        else {
+/*
+            CsvReader csvReader = new CsvReader();
+            csvReader.setProva(this);
+            try {
+                csvReader.readLineByLine(selectedFile.toPath());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            else {
-                CsvReader csvReader = new CsvReader();
-                try {
-                    csvReader.readLineByLine(selectedFile.toPath());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                System.out.println("Lettura CSV effettuata");
-                System.out.println(selectedFile.toPath());
-                //selectedFile.getAbsolutePath();
-                //mainApp.getInputStage().display(selectedFile);
-            }
+
+ */
+            System.out.println("File selected");
+            System.out.println(selectedFile.toPath());
+            //selectedFile.getAbsolutePath();
+            //mainApp.getInputStage().display(selectedFile);
+        }
         });
     }
 

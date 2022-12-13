@@ -1,5 +1,6 @@
 package it.unicas.bms_project;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,10 +14,13 @@ import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class MainApp extends Application {
+import static it.unicas.bms_project.InputStartViewController.selectedFile;
+
+public class MainApp extends Application implements test {
 
     private Stage primaryStage;
     private Stage inputStage;
@@ -33,6 +37,7 @@ public class MainApp extends Application {
     public static RootLayoutController Rootcontroller;
     public static BmsOverviewController BMScontroller;
     public static MeasuresViewController MeasuresController;
+    public static List<BmsData> bmsDataList;
 
 
 
@@ -80,6 +85,24 @@ public class MainApp extends Application {
 
         initRootLayout();
         showBmsOverview();
+
+        try {
+            //csvReader.readLineByLine(selectedFile.toPath());
+            System.out.println("File read");
+
+
+            bmsDataList = new CsvToBeanBuilder(new FileReader(selectedFile))
+                    .withType(BmsData.class)
+                    .build()
+                    .parse();
+            for(BmsData b :bmsDataList) {
+                System.out.println(b.getVcell1() + "    " + b.getVstack() + "    " + b.getTemp1() + "   " + b.getSoc());
+            }
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         this.primaryStage.show();
 
@@ -252,5 +275,10 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
         //System.out.println("Finito");
+    }
+
+    @Override
+    public void pippo(List<BmsData> bmsDataList) {
+
     }
 }
