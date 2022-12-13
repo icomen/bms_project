@@ -80,10 +80,40 @@ public class Module {
 
 
 
-    public void getData(int sampleTime) {
+    public void getData(int sampleTime, Vector<Tile> statisticalData) {
         getSensorsData(sampleTime);
         getVoltageData(sampleTime);
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> {
+                double vmax = getMaxVoltage();
+                double vmin = getMinVoltage();
+                double vAverage = getAverageVoltage();
+                double deltaV = Math.abs(vmax-vmin);
+                statisticalData.get(0).setValue(vmax);
+                statisticalData.get(1).setValue(vmin);
+                statisticalData.get(2).setValue(vAverage);
+                statisticalData.get(3).setValue(deltaV);
+
+                });
+        }, 0, sampleTime, TimeUnit.SECONDS);
     }
+
+    private double getMaxVoltage() {
+        return RND.nextDouble() * 100;
+    }
+
+
+    private double getMinVoltage() {
+        return RND.nextDouble() * 100;
+    }
+
+    private double getAverageVoltage() {
+        return RND.nextDouble() * 100;
+    }
+
     private void getSensorsData(int sampleTime) {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
