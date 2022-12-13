@@ -17,17 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Module {
-    public Gauge gaucheTemperature1;
-    public Gauge gaucheTemperature2;
     public Vector<Gauge> vectorSensors = new Vector<Gauge>();
-    public Tile cellsVoltage1;
-    public Tile cellsVoltage2;
-    public Tile cellsVoltage3;
-    public Tile cellsVoltage4;
-    public Tile cellsVoltage5;
-    public Tile cellsVoltage6;
-    public Tile cellsVoltage7;
-    public Tile cellsVoltage8;
     public Vector<Tile> vectorCells = new Vector<Tile>();
     public int nSensors;
     public int nCells;
@@ -36,22 +26,10 @@ public class Module {
 
 
     private void createTempSensors(Color backgroundColor, Color foregroundColor) {
-        gaucheTemperature1 = GaugeBuilder.create()
-                .skinType(Gauge.SkinType.PLAIN_AMP)
-                .minWidth(200)
-                .sectionsVisible(true)
-                .sections(new Section(0, 40, Color.rgb(0, 200, 0, 0.8)),
-                        new Section(40, 60, Color.rgb(200, 200, 0, 0.8)),
-                        new Section(60, 100, Color.rgb(200, 0, 0, 0.8)))
-                .ledOn(false)
-                .backgroundPaint(backgroundColor)
-                .foregroundBaseColor(foregroundColor)
-                .build();
-        vectorSensors.add(gaucheTemperature1);
-        if (nSensors == 2) {
-            gaucheTemperature2 = GaugeBuilder.create()
+        Gauge aux[] = new Gauge[2];
+        for (int i = 0; i < nSensors; i++) {
+            aux[i] = GaugeBuilder.create()
                     .skinType(Gauge.SkinType.PLAIN_AMP)
-                    .prefWidth(200)
                     .minWidth(200)
                     .sectionsVisible(true)
                     .sections(new Section(0, 40, Color.rgb(0, 200, 0, 0.8)),
@@ -61,129 +39,27 @@ public class Module {
                     .backgroundPaint(backgroundColor)
                     .foregroundBaseColor(foregroundColor)
                     .build();
-            vectorSensors.add(gaucheTemperature2);
+            vectorSensors.add(aux[i]);
         }
     }
 
     private void createCells(Color backgroundColor, Color foregroundColor) {
-            cellsVoltage1 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
+        Tile aux[] = new Tile[8];
+        for (int i = 0; i < nCells; i++) {
+            aux[i] = TileBuilder.create().skinType(Tile.SkinType.GAUGE)
                     .minWidth(200)
-                    .title("Cell 1 voltage")
+                    .title("Cell "+(i+1)+ " voltage")
                     .titleAlignment(TextAlignment.CENTER)
-                    .unit("\u00b0V")
-                    .decimals(2)
-                    .animated(true)
+                    .unit("V")
                     .backgroundColor(backgroundColor)
+                    .threshold(75)
+                    .maxValue(100)
                     .titleColor(foregroundColor)
                     .valueColor(foregroundColor)
                     .unitColor(foregroundColor)
                     .build();
-            vectorCells.add(cellsVoltage1);
-            if (nCells>1) {
-                cellsVoltage2 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                        .minWidth(200)
-                        .title("Cell 2 voltage")
-                        .titleAlignment(TextAlignment.CENTER)
-                        .unit("\u00b0V")
-                        .decimals(2)
-                        .animated(true)
-                        .backgroundColor(backgroundColor)
-                        .titleColor(foregroundColor)
-                        .valueColor(foregroundColor)
-                        .unitColor(foregroundColor)
-                        .build();
-                vectorCells.add(cellsVoltage2);
-                if (nCells>2) {
-                    cellsVoltage3 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                            .minWidth(200)
-                            .title("Cell 3 voltage")
-                            .titleAlignment(TextAlignment.CENTER)
-                            .unit("\u00b0V")
-                            .decimals(2)
-                            .animated(true)
-                            .backgroundColor(backgroundColor)
-                            .titleColor(foregroundColor)
-                            .valueColor(foregroundColor)
-                            .unitColor(foregroundColor)
-                            .build();
-                    vectorCells.add(cellsVoltage3);
-                    if (nCells>3) {
-                        cellsVoltage4 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                                .minWidth(200)
-                                .title("Cell 4 voltage")
-                                .titleAlignment(TextAlignment.CENTER)
-                                .unit("\u00b0V")
-                                .decimals(2)
-                                .animated(true)
-                                .backgroundColor(backgroundColor)
-                                .titleColor(foregroundColor)
-                                .valueColor(foregroundColor)
-                                .unitColor(foregroundColor)
-                                .build();
-                        vectorCells.add(cellsVoltage4);
-                        if (nCells>4) {
-                            cellsVoltage5 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                                    .minWidth(200)
-                                    .title("Cell 5 voltage")
-                                    .titleAlignment(TextAlignment.CENTER)
-                                    .unit("\u00b0V")
-                                    .decimals(2)
-                                    .animated(true)
-                                    .backgroundColor(backgroundColor)
-                                    .titleColor(foregroundColor)
-                                    .valueColor(foregroundColor)
-                                    .unitColor(foregroundColor)
-                                    .build();
-                            vectorCells.add(cellsVoltage5);
-                            if (nCells>5) {
-                                cellsVoltage6 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                                        .minWidth(200)
-                                        .title("Cell 6 voltage")
-                                        .titleAlignment(TextAlignment.CENTER)
-                                        .unit("\u00b0V")
-                                        .decimals(2)
-                                        .animated(true)
-                                        .backgroundColor(backgroundColor)
-                                        .titleColor(foregroundColor)
-                                        .valueColor(foregroundColor)
-                                        .unitColor(foregroundColor)
-                                        .build();
-                                vectorCells.add(cellsVoltage6);
-                                if (nCells>6) {
-                                    cellsVoltage7 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                                            .minWidth(200)
-                                            .title("Cell 7 voltage")
-                                            .titleAlignment(TextAlignment.CENTER)
-                                            .unit("\u00b0V")
-                                            .decimals(2)
-                                            .animated(true)
-                                            .backgroundColor(backgroundColor)
-                                            .titleColor(foregroundColor)
-                                            .valueColor(foregroundColor)
-                                            .unitColor(foregroundColor)
-                                            .build();
-                                    vectorCells.add(cellsVoltage7);
-                                    if (nCells>7) {
-                                        cellsVoltage8 = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                                                .minWidth(200)
-                                                .title("Cell 8 voltage")
-                                                .titleAlignment(TextAlignment.CENTER)
-                                                .unit("\u00b0V")
-                                                .decimals(2)
-                                                .animated(true)
-                                                .backgroundColor(backgroundColor)
-                                                .titleColor(foregroundColor)
-                                                .valueColor(foregroundColor)
-                                                .unitColor(foregroundColor)
-                                                .build();
-                                        vectorCells.add(cellsVoltage8);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            vectorCells.add(aux[i]);
+        }
     }
     public Module(int nCells, int nSensors, boolean current, boolean isSelected) {
         this.nSensors = nSensors;

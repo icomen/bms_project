@@ -116,6 +116,7 @@ public class MainApp extends Application {
         }
     }
 
+
     /**
      * Closes the application.
      */
