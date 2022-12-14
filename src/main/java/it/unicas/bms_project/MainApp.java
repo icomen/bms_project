@@ -64,7 +64,7 @@ public class MainApp extends Application {
     }
 
     public void setPrimaryStage(Stage primaryStage) throws IOException {
-        File file = new File("/Users/mica/IdeaProjects/bms_project/myfile.txt");
+        File file = new File("myfile.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         nCells = Integer.parseInt(reader.readLine());
         nSensors = Integer.parseInt(reader.readLine());

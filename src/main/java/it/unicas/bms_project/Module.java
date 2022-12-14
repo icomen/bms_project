@@ -19,33 +19,29 @@ import java.util.concurrent.TimeUnit;
 import static it.unicas.bms_project.MainApp.bmsDataList;
 
 public class Module {
-    public Vector<Gauge> vectorSensors = new Vector<Gauge>();
+    public Vector<Tile> vectorSensors = new Vector<Tile>();
     public Vector<Tile> vectorCells = new Vector<Tile>();
     public int nSensors;
     public int nCells;
     public boolean current;
     private static final Random RND = new Random();
-    private Double maxVoltage;
-    private Double minVoltage;
+    private Double maxVoltage = -1000.0;
+    private Double minVoltage = + 1000.0;
     private Double averageVoltage;
     private int maxCell;
     private int minCell;
-    private Double sum;
+    private Double sum = 0.0;
     public static Double maxTemp= -1000.0;
 
 
     private void createTempSensors(Color backgroundColor, Color foregroundColor) {
-        Gauge aux[] = new Gauge[2];
+        Tile aux[] = new Tile[2];
         for (int i = 0; i < nSensors; i++) {
-            aux[i] = GaugeBuilder.create()
-                    .skinType(Gauge.SkinType.PLAIN_AMP)
+            aux[i] = TileBuilder.create()
+                    .skinType(Tile.SkinType.GAUGE)
                     .minWidth(200)
-                    .sectionsVisible(true)
-                    .sections(new Section(0, 40, Color.rgb(0, 200, 0, 0.8)),
-                            new Section(40, 60, Color.rgb(200, 200, 0, 0.8)),
-                            new Section(60, 100, Color.rgb(200, 0, 0, 0.8)))
-                    .ledOn(false)
-                    .backgroundPaint(backgroundColor)
+                    .threshold(60)
+                    .backgroundColor(backgroundColor)
                     .foregroundBaseColor(foregroundColor)
                     .build();
             vectorSensors.add(aux[i]);
@@ -136,12 +132,11 @@ public class Module {
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                for (Gauge i:vectorSensors) {
+                for (Tile i:vectorSensors) {
                     aux[0][0] = bmsDataList.get(ref.n).getTemp().get("Temp1").iterator().next();
                     aux[0][1] = bmsDataList.get(ref.n).getTemp().get("Temp2").iterator().next();
                     double x = aux[0][vectorSensors.indexOf(i)];
                     i.setValue(x);
-                    i.setLedOn(x > 60);
                     if (x>maxTemp) {
                         maxTemp = x;
                     }
@@ -214,8 +209,8 @@ public class Module {
     }
 
     public void setDarkMode(Color backgroundColor, Color foregroundColor) {
-        for (Gauge i: vectorSensors) {
-            i.setBackgroundPaint(backgroundColor);
+        for (Tile i: vectorSensors) {
+            i.setBackgroundColor(backgroundColor);
             i.setForegroundBaseColor(foregroundColor);
         }
         for (Tile i: vectorCells) {

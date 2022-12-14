@@ -3,9 +3,10 @@ package it.unicas.bms_project;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -16,8 +17,9 @@ public class MeasuresViewController{
 
     public Vector<Module> vector = new Vector<>();
 
+    TabPane tabPane = new TabPane();
     @FXML
-    TabPane tabPane;
+    BorderPane borderPane;
     @FXML
     GridPane gridPane;
 
@@ -107,6 +109,7 @@ public class MeasuresViewController{
     @FXML
     public void initialize() {
         createStatisticalDataTile();
+        borderPane.setCenter(tabPane);
         int column=0;
         for (Tile i:statisticalData) {
             gridPane.add(i, column,0);
@@ -114,7 +117,19 @@ public class MeasuresViewController{
         }
         for (int i = 0; i<mainApp.nModules; i++) {
             Module module = new Module(mainApp.nCells, mainApp.nSensors, mainApp.currentMeasurements, mainApp.Rootcontroller.dm.isSelected());
+            HBox hBox = new HBox();
+            VBox vBox = new VBox();
             GridPane gridPane = new GridPane();
+            hBox.getChildren().add(gridPane);
+            hBox.getChildren().add(vBox);
+            hBox.setFillHeight(true);
+            vBox.setFillWidth(true);
+            gridPane.setFillWidth(hBox, true);
+            hBox.setHgrow(gridPane, Priority.ALWAYS);
+            hBox.setHgrow(vBox, Priority.ALWAYS);
+            gridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
+            gridPane.setVgap(10); //vertical gap in pixels
+            gridPane.setPadding(new Insets(10, 10, 10, 10));
             vector.add(i, module);
             Tab tab = new Tab();
             tab.setText("Module "+(i+1));
