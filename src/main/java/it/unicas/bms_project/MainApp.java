@@ -101,8 +101,8 @@ public class MainApp extends Application {
             for(BmsData b :bmsDataList) {
                 //System.out.println(b.getVcell() + "    " + b.getVstack() + "    " + b.getTemp() + "   " + b.getSoc());
             }
-            Double x = bmsDataList.get(0).getTemp().get("Temp1").iterator().next();
-            System.out.println(x);
+            //Double x = bmsDataList.get(0).getTemp().get("Temp1").iterator().next();
+            //System.out.println(x);
 
 
 
