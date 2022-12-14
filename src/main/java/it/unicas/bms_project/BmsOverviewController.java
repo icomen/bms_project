@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import static it.unicas.bms_project.MainApp.sampleTime;
 
-public class BmsOverviewController implements test {
+public class BmsOverviewController{
     private MainApp mainApp;
     private static final Random RND = new Random();
     public Tile fireSmokeTile;
@@ -59,7 +58,7 @@ public class BmsOverviewController implements test {
         };
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                fireSmokeTile.setValue(MainApp.bmsDataList.get(ref.i).getTemp1());
+                //fireSmokeTile.setValue(Module.maxTemp);
                 /*
                 double x = RND.nextDouble() * 100;
                 fireSmokeTile.setValue(x);
@@ -210,9 +209,4 @@ public class BmsOverviewController implements test {
 
     }
 
-    @Override
-    public void pippo(List<BmsData> bmsDataList) {
-        fireSmokeTile.setValue(MainApp.bmsDataList.get(1).getTemp1());
-        System.out.println(MainApp.bmsDataList.get(1).getTemp1());
-    }
 }

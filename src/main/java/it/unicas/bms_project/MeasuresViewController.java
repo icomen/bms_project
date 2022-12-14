@@ -22,6 +22,8 @@ public class MeasuresViewController{
     GridPane gridPane;
 
     public Vector<Tile> statisticalData = new Vector<Tile>();
+    private Tab tab = new Tab();
+    private GridPane gridPane2 = new GridPane();
 
 
     public MeasuresViewController() {
@@ -46,6 +48,7 @@ public class MeasuresViewController{
         }
         Tile Vmax = TileBuilder.create()
                 .skinType(Tile.SkinType.NUMBER)
+                .value(0.0)
                 .title("Vmax")
                 .textSize(Tile.TextSize.BIGGER)
                 .text("Whatever text")
@@ -55,6 +58,7 @@ public class MeasuresViewController{
 
         Tile Vmin = TileBuilder.create()
                 .skinType(Tile.SkinType.NUMBER)
+                .value(0.0)
                 .title("Vmin")
                 .textSize(Tile.TextSize.BIGGER)
                 .text("Whatever text")
@@ -64,20 +68,20 @@ public class MeasuresViewController{
 
         Tile Vaverage = TileBuilder.create()
                 .skinType(Tile.SkinType.NUMBER)
+                .value(0.0)
                 .title("Vaverage")
                 .textSize(Tile.TextSize.BIGGER)
                 .text("Whatever text")
                 .unit("V")
-                .description("Test")
                 .build();
 
         Tile deltaV = TileBuilder.create()
                 .skinType(Tile.SkinType.NUMBER)
+                .value(0.0)
                 .title("deltaV")
                 .textSize(Tile.TextSize.BIGGER)
                 .text("(Vmax-Vmin)")
                 .unit("V")
-                .description("Test")
                 .build();
 
         statisticalData.add(Vmax);

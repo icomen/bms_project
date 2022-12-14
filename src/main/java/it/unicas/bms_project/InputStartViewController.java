@@ -7,10 +7,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.List;
 
 
-public class InputStartViewController implements test {
+public class InputStartViewController {
 
     private MainApp mainApp;
 
@@ -59,10 +58,8 @@ public class InputStartViewController implements test {
     public void initialize() {
         choiceBox.getItems().addAll(current_measurements);
     }
-    @Override
-    public void pippo(List<BmsData> bmsDataList) {
 
-    }
+
 
     @FXML
     private void simpleExit() {

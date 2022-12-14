@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import static it.unicas.bms_project.InputStartViewController.selectedFile;
 
-public class MainApp extends Application implements test {
+public class MainApp extends Application {
 
     private Stage primaryStage;
     private Stage inputStage;
@@ -39,6 +39,7 @@ public class MainApp extends Application implements test {
     public static MeasuresViewController MeasuresController;
     public static List<BmsData> bmsDataList;
 
+    public boolean first = true;
 
 
     /**
@@ -83,6 +84,8 @@ public class MainApp extends Application implements test {
         this.primaryStage.setWidth(900);
         this.primaryStage.setHeight(650);
 
+
+
         initRootLayout();
         showBmsOverview();
 
@@ -96,8 +99,11 @@ public class MainApp extends Application implements test {
                     .build()
                     .parse();
             for(BmsData b :bmsDataList) {
-                System.out.println(b.getVcell1() + "    " + b.getVstack() + "    " + b.getTemp1() + "   " + b.getSoc());
+                //System.out.println(b.getVcell() + "    " + b.getVstack() + "    " + b.getTemp() + "   " + b.getSoc());
             }
+            Double x = bmsDataList.get(0).getTemp().get("Temp1").iterator().next();
+            System.out.println(x);
+
 
 
         } catch (Exception e) {
@@ -123,6 +129,7 @@ public class MainApp extends Application implements test {
             Scene scene = new Scene(rootLayout);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             primaryStage.setScene(scene);
+
 
 
             primaryStage.setOnCloseRequest(event -> {
@@ -206,8 +213,12 @@ public class MainApp extends Application implements test {
 
 
             // Give the controller access to the main app.
-            MeasuresController = loader.getController();
-            MeasuresController.setMainApp(this);
+            if (first) {
+                MeasuresController = loader.getController();
+                MeasuresController.setMainApp(this);
+            }
+            first = false;
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -277,8 +288,4 @@ public class MainApp extends Application implements test {
         //System.out.println("Finito");
     }
 
-    @Override
-    public void pippo(List<BmsData> bmsDataList) {
-
-    }
 }

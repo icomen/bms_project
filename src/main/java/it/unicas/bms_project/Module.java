@@ -16,6 +16,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static it.unicas.bms_project.MainApp.bmsDataList;
+
 public class Module {
     public Vector<Gauge> vectorSensors = new Vector<Gauge>();
     public Vector<Tile> vectorCells = new Vector<Tile>();
@@ -23,6 +25,13 @@ public class Module {
     public int nCells;
     public boolean current;
     private static final Random RND = new Random();
+    private Double maxVoltage;
+    private Double minVoltage;
+    private Double averageVoltage;
+    private int maxCell;
+    private int minCell;
+    private Double sum;
+    public static Double maxTemp= -1000.0;
 
 
     private void createTempSensors(Color backgroundColor, Color foregroundColor) {
@@ -93,7 +102,9 @@ public class Module {
                 double vAverage = getAverageVoltage();
                 double deltaV = Math.abs(vmax-vmin);
                 statisticalData.get(0).setValue(vmax);
+                statisticalData.get(0).setDescription("Cell "+maxCell);
                 statisticalData.get(1).setValue(vmin);
+                statisticalData.get(1).setDescription("Cell "+minCell);
                 statisticalData.get(2).setValue(vAverage);
                 statisticalData.get(3).setValue(deltaV);
 
@@ -102,42 +113,84 @@ public class Module {
     }
 
     private double getMaxVoltage() {
-        return RND.nextDouble() * 100;
+        return maxVoltage;
     }
 
 
     private double getMinVoltage() {
-        return RND.nextDouble() * 100;
+        return minVoltage;
     }
 
     private double getAverageVoltage() {
-        return RND.nextDouble() * 100;
+        return sum/nCells;
     }
 
     private void getSensorsData(int sampleTime) {
+        double[][] aux = new double[1][2];
+
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        var ref = new Object() {
+            int n = 0;
+        };
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
                 for (Gauge i:vectorSensors) {
-                    double x = RND.nextDouble() * 100;
+                    aux[0][0] = bmsDataList.get(ref.n).getTemp().get("Temp1").iterator().next();
+                    aux[0][1] = bmsDataList.get(ref.n).getTemp().get("Temp2").iterator().next();
+                    double x = aux[0][vectorSensors.indexOf(i)];
                     i.setValue(x);
                     i.setLedOn(x > 60);
+                    if (x>maxTemp) {
+                        maxTemp = x;
+                    }
+                }
+                ref.n++;
+                if (ref.n==100) {
+                    ref.n = 0;
                 }
             });
         }, 0, sampleTime, TimeUnit.SECONDS);
     }
 
     private void getVoltageData(int sampleTime) {
+        double[][] aux = new double[1][8];
+
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
+        var ref = new Object() {
+            int n = 0;
+        };
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
+                maxVoltage= -1000.0;
+                minVoltage = 1000000000.0;
+                sum = 0.0;
                 for (Tile i:vectorCells) {
-                    double x = RND.nextDouble() * 100;
+                    aux[0][0] = bmsDataList.get(ref.n).getVcell().get("Vcell1").iterator().next();
+                    aux[0][1] = bmsDataList.get(ref.n).getVcell().get("Vcell2").iterator().next();
+                    aux[0][2] = bmsDataList.get(ref.n).getVcell().get("Vcell3").iterator().next();
+                    aux[0][3] = bmsDataList.get(ref.n).getVcell().get("Vcell4").iterator().next();
+                    aux[0][4] = bmsDataList.get(ref.n).getVcell().get("Vcell5").iterator().next();
+                    aux[0][5] = bmsDataList.get(ref.n).getVcell().get("Vcell6").iterator().next();
+                    aux[0][6] = bmsDataList.get(ref.n).getVcell().get("Vcell7").iterator().next();
+                    aux[0][7] = bmsDataList.get(ref.n).getVcell().get("Vcell8").iterator().next();
+                    double x = aux[0][vectorCells.indexOf(i)];
                     i.setValue(x);
+                    if (x>maxVoltage) {
+                        maxVoltage = x;
+                        maxCell = vectorCells.indexOf(i) + 1;
+                    }
+                    if (x<minVoltage) {
+                        minVoltage = x;
+                        minCell = vectorCells.indexOf(i) + 1;
+                    }
+                    sum+=x;
+                }
+                ref.n++;
+                if (ref.n==100) {
+                    ref.n = 0;
                 }
             });
         }, 0, sampleTime, TimeUnit.SECONDS);

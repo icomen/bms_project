@@ -1,67 +1,136 @@
 package it.unicas.bms_project;
 
+import com.opencsv.bean.CsvBindAndJoinByName;
 import com.opencsv.bean.CsvBindByName;
+import org.apache.commons.collections4.MultiValuedMap;
 
 public class BmsData {
-/*
-    private Double vcell1;
-    private Double vstack;
-    private Double temp1;
-    private Double soc;
 
- */
-    @CsvBindByName(column = "Vcell1")
-    private Double Vcell1;
 
     @CsvBindByName(column = "Vstack")
-    private String Vstack;
+    private Double Vstack;
 
-    @CsvBindByName(column = "Temp1")
-    private Double Temp1;
     @CsvBindByName(column = "Soc")
-    private String Soc;
+    private Double Soc;
 
-    /*
-   @CsvBindAndJoinByName(column = "Vcell*", elementType = String.class)
-   private MultiValueMap<String, String> Vcell;
+    @CsvBindByName(column = "I")
+    private Double I;
 
-    @CsvBindAndJoinByName(column = "Temp*", elementType = String.class)
-    private MultiValueMap<String, String> Temp;
+    @CsvBindByName(column = "W")
+    private Double W;
 
-    @CsvBindAndJoinByName(column = ".*", elementType = String.class)
-    private MultiValueMap<String, String> TheRest;
+    @CsvBindByName(column = "OT")
+    private Double OT;
 
-*/
+    @CsvBindByName(column = "UT")
+    private Double UT;
+
+    @CsvBindByName(column = "OV")
+    private Double OV;
+
+    @CsvBindByName(column = "UV")
+    private Double UV;
+
+    @CsvBindByName(column = "A")
+    private Double A;
+
+
+    @CsvBindAndJoinByName(column = "Vcell[0-9]+", elementType = Double.class)
+    private MultiValuedMap<String, Double> Vcell;
+
+    @CsvBindAndJoinByName(column = "Temp[0-9]+", elementType = Double.class)
+    private MultiValuedMap<String, Double> Temp;
 
     public BmsData() {
 
     }
 
-    public double getVcell1() {
-        return Vcell1;
-    }
-    public void setVcell1(Double Vcell1) {
-        this.Vcell1 = Vcell1;
+    public Double getOT() {
+        return OT;
     }
 
-    public String getVstack() {
+    public void setOT(Double OT) {
+        this.OT = OT;
+    }
+
+    public Double getUT() {
+        return UT;
+    }
+
+    public void setUT(Double UT) {
+        this.UT = UT;
+    }
+
+    public Double getOV() {
+        return OV;
+    }
+
+    public void setOV(Double OV) {
+        this.OV = OV;
+    }
+
+    public Double getUV() {
+        return UV;
+    }
+
+    public void setUV(Double UV) {
+        this.UV = UV;
+    }
+
+    public Double getVstack() {
         return Vstack;
     }
-    public void setVstack(String Vstack) {
-        this.Vstack = Vstack;
-    }
-    public double getTemp1() {
-        return Temp1;
-    }
-    public void setTemp1(Double Temp1) {
-        this.Temp1 = Temp1;
-    }
-    public String getSoc() {
-        return Soc;
-    }
-    public void setSoc(String Soc) {
-        this.Soc = Soc;
+
+    public void setVstack(Double vstack) {
+        Vstack = vstack;
     }
 
+    public Double getSoc() {
+        return Soc;
+    }
+
+    public void setSoc(Double soc) {
+        Soc = soc;
+    }
+
+    public Double getI() {
+        return I;
+    }
+
+    public void setI(Double i) {
+        I = i;
+    }
+
+    public Double getW() {
+        return W;
+    }
+
+    public void setW(Double w) {
+        W = w;
+    }
+
+    public Double getA() {
+        return A;
+    }
+
+    public void setA(Double a) {
+        A = a;
+    }
+
+    public MultiValuedMap<String, Double> getVcell() {
+        return Vcell;
+    }
+
+    public void setVcell(MultiValuedMap<String, Double> vcell) {
+        Vcell = vcell;
+    }
+
+    public MultiValuedMap<String, Double> getTemp() {
+        return Temp;
+    }
+
+    public void setTemp(MultiValuedMap<String, Double> temp) {
+        Temp = temp;
+    }
 
 }

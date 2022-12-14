@@ -11,6 +11,7 @@ module it.unicas.bms_project {
     requires com.hivemq.client.mqtt;
     requires eu.hansolo.medusa;
     requires com.opencsv;
+    requires org.apache.commons.collections4;
 
 
     opens it.unicas.bms_project to javafx.fxml;
