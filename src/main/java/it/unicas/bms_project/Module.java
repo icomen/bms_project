@@ -157,7 +157,7 @@ public class Module {
                 for (Tile i:vectorSensors) {
                     int onesUT = bmsDataList.get(ref.n).getUT().length() - bmsDataList.get(ref.n).getUT().replaceAll("1", "").length();
                     int onesOT = bmsDataList.get(ref.n).getOT().length() - bmsDataList.get(ref.n).getOT().replaceAll("1", "").length();
-                    voltageFaults = (onesOT + onesUT);
+                    temperatureFaults = (onesOT + onesUT);
                     aux[0][0] = bmsDataList.get(ref.n).getTemp().get("Temp1").iterator().next();
                     aux[0][1] = bmsDataList.get(ref.n).getTemp().get("Temp2").iterator().next();
                     double x = aux[0][vectorSensors.indexOf(i)];
