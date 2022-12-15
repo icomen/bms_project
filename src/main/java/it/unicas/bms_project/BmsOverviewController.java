@@ -91,7 +91,8 @@ public class BmsOverviewController{
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                batteryGauge.setValue(Module.sum/nCells);
+                Double x = (Module.sum/nCells)/4.5*100;
+                batteryGauge.setValue(x);
                 /*
                 if (x<10) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);

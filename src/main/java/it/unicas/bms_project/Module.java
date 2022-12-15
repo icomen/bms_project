@@ -159,6 +159,7 @@ public class Module {
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
+                maxTemp = -1000.0;
                 temperatureFaults = 0;
                 for (Tile i:vectorSensors) {
                     int onesUT = bmsDataList.get(ref.n).getUT().length() - bmsDataList.get(ref.n).getUT().replaceAll("1", "").length();
