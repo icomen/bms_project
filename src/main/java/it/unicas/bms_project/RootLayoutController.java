@@ -80,6 +80,11 @@ public class RootLayoutController {
     }
 
     @FXML
+    private void showSessionManagerView(){
+        mainApp.showSessionManagerView();
+    }
+
+    @FXML
     public void setDarkMode() {
         Boolean isSelected;
         isSelected = dm.isSelected();
@@ -89,15 +94,15 @@ public class RootLayoutController {
                 dm.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
                 backgroundColor = Color.rgb(0,0,0);
                 foregroundColor = Color.rgb(255, 255, 255);
-                mainApp.BMScontroller.whiteImage.setOpacity(0);
-                mainApp.BMScontroller.blackImage.setOpacity(1);
+                //mainApp.BMScontroller.whiteImage.setOpacity(0);
+                //mainApp.BMScontroller.blackImage.setOpacity(1);
             }
             else {
                 dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
                 foregroundColor = Color.rgb(0,0,0);
                 backgroundColor = Color.rgb(255, 255, 255);
-                mainApp.BMScontroller.whiteImage.setOpacity(1);
-                mainApp.BMScontroller.blackImage.setOpacity(0);
+                //mainApp.BMScontroller.whiteImage.setOpacity(1);
+                //mainApp.BMScontroller.blackImage.setOpacity(0);
             }
         mainApp.BMScontroller.fireSmokeTile.setBackgroundColor(backgroundColor);
         mainApp.BMScontroller.fireSmokeTile.setValueColor(foregroundColor);

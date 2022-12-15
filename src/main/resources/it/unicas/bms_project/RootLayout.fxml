@@ -30,7 +30,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="67.0" text="user">
+            <JFXButton contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" onAction="#showSessionManagerView" prefHeight="58.0" prefWidth="67.0" text="user">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>

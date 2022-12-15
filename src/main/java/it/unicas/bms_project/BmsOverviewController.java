@@ -8,8 +8,10 @@ import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.addons.Indicator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -36,11 +38,15 @@ public class BmsOverviewController{
     public static final int TILE_HEIGHT = 300;
 
     @FXML
-    private GridPane pane;
+    private HBox hBox;
+
+    /*
     @FXML
     public ImageView blackImage;
     @FXML
     public ImageView whiteImage;
+
+     */
 
 
 
@@ -49,7 +55,6 @@ public class BmsOverviewController{
     }
 
 
-    @FXML
     private void changeTemperature () {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -80,7 +85,6 @@ public class BmsOverviewController{
 
     }
 
-    @FXML
     private void changeBattery () {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -106,7 +110,6 @@ public class BmsOverviewController{
 
     }
 
-    @FXML
     private void changeAlerts () {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -131,9 +134,22 @@ public class BmsOverviewController{
     @FXML
     private void initialize() {
         createTile();
-        pane.add(fireSmokeTile, 3, 0);
-        pane.add(batteryGauge, 1, 2);
-        pane.add(statusTile, 1, 0);
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(fireSmokeTile, 1, 0);
+        gridPane.add(batteryGauge, 0, 1);
+        gridPane.add(statusTile, 0, 0);
+
+        hBox.getChildren().add(gridPane);
+        gridPane.setFillWidth(hBox, true);
+        gridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
+        gridPane.setVgap(10); //vertical gap in pixels
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+
+
+        changeAlerts();
+        changeBattery();
+        changeTemperature();
     }
 
     private void createTile() {
@@ -142,14 +158,14 @@ public class BmsOverviewController{
         if (mainApp.Rootcontroller.dm.isSelected()) {
             backgroundColor = Color.rgb(0, 0, 0);
             foregroundColor = Color.rgb(255, 255, 255);
-            whiteImage.setOpacity(0);
-            blackImage.setOpacity(1);
+            //whiteImage.setOpacity(0);
+            //blackImage.setOpacity(1);
         }
         else {
             foregroundColor = Color.rgb(0, 0, 0);
             backgroundColor = Color.rgb(255, 255, 255);
-            whiteImage.setOpacity(1);
-            blackImage.setOpacity(0);
+            //whiteImage.setOpacity(1);
+            //blackImage.setOpacity(0);
         }
         fireSmokeTile = TileBuilder.create().skinType(Tile.SkinType.FIRE_SMOKE)
                 .prefSize(TILE_WIDTH+145, TILE_HEIGHT+145)
@@ -189,7 +205,7 @@ public class BmsOverviewController{
         leftGraphics.setOn(false);
         statusTile = TileBuilder.create()
                 .skinType(Tile.SkinType.STATUS)
-                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                .prefSize(TILE_WIDTH+200, TILE_HEIGHT)
                 .title("Alerts overview")
                 .titleAlignment(TextAlignment.CENTER)
                 .leftText("Voltage alert")

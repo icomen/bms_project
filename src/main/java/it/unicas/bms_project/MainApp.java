@@ -38,6 +38,7 @@ public class MainApp extends Application {
     public static String outputPath;
     public static boolean currentMeasurements;
     private static Pane loc;
+    private static Pane loc2;
 
     public static RootLayoutController Rootcontroller;
     public static BmsOverviewController BMScontroller;
@@ -92,13 +93,25 @@ public class MainApp extends Application {
         this.primaryStage.setWidth(1120);
         this.primaryStage.setHeight(700);
 
-
-
         initRootLayout();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("MeasuresView.fxml"));
+        FXMLLoader loader2 = new FXMLLoader();
+        loader2.setLocation(MainApp.class.getResource("BmsOverview.fxml"));
+
+        if(first) {
+            loc2 = loader2.load();
+            BMScontroller = loader2.getController();
+            BMScontroller.setMainApp(this);
+            loc = loader.load();
+            MeasuresController = loader.getController();
+            MeasuresController.setMainApp(this);
+        }
+        first = false;
         showBmsOverview();
 
+
         try {
-            //csvReader.readLineByLine(selectedFile.toPath());
             System.out.println("File read");
 
 
@@ -186,45 +199,15 @@ public class MainApp extends Application {
      */
 
     public void showBmsOverview() {
-        try {
-            // Load BMS overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("BmsOverview.fxml"));
-
-            // Set BMS overview into the center of root layout.
-            rootLayout.setCenter(loader.load());
-
-
-            // Give the controller access to the main app.
-            BMScontroller = loader.getController();
-            BMScontroller.setMainApp(this);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Set BMS overview into the center of root layout.
+        rootLayout.setCenter(loc2);
 
     }
 
     public void showMeasuresView() {
-        try {
-            // Load BMS overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("MeasuresView.fxml"));
 
-            // Set BMS overview into the center of root layout.
-            if(first) {
-                loc = loader.load();
-                MeasuresController = loader.getController();
-                MeasuresController.setMainApp(this);
-            }
-            rootLayout.setCenter(loc);
-            first = false;
+        rootLayout.setCenter(loc);
 
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
