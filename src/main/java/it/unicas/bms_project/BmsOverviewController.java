@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static it.unicas.bms_project.MainApp.nCells;
 import static it.unicas.bms_project.MainApp.sampleTime;
 
 public class BmsOverviewController{
@@ -58,7 +59,7 @@ public class BmsOverviewController{
         };
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                //fireSmokeTile.setValue(Module.maxTemp);
+                fireSmokeTile.setValue(Module.maxTemp);
                 /*
                 double x = RND.nextDouble() * 100;
                 fireSmokeTile.setValue(x);
@@ -86,8 +87,7 @@ public class BmsOverviewController{
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                double x = RND.nextDouble() * 100;
-                batteryGauge.setValue(x);
+                batteryGauge.setValue(Module.sum/nCells);
                 /*
                 if (x<10) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -113,9 +113,9 @@ public class BmsOverviewController{
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                int r = (int) (RND.nextDouble() * 5);
-                int m = (int) (RND.nextDouble() * 5);
-                int l = (int) (RND.nextDouble() * 5);
+                int r = Module.temperatureFaults;
+                Double m = Module.currentFaults;
+                int l = Module.voltageFaults;
                 rightGraphics.setOn(r>0);
                 statusTile.setRightValue(r);
                 middleGraphics.setOn(m>0);

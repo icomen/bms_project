@@ -20,16 +20,16 @@ public class BmsData {
     private Double W;
 
     @CsvBindByName(column = "OT")
-    private Double OT;
+    private String OT;
 
     @CsvBindByName(column = "UT")
-    private Double UT;
+    private String UT;
 
     @CsvBindByName(column = "OV")
-    private Double OV;
+    private String OV;
 
     @CsvBindByName(column = "UV")
-    private Double UV;
+    private String UV;
 
     @CsvBindByName(column = "A")
     private Double A;
@@ -45,35 +45,35 @@ public class BmsData {
 
     }
 
-    public Double getOT() {
+    public String getOT() {
         return OT;
     }
 
-    public void setOT(Double OT) {
+    public void setOT(String OT) {
         this.OT = OT;
     }
 
-    public Double getUT() {
+    public String getUT() {
         return UT;
     }
 
-    public void setUT(Double UT) {
+    public void setUT(String UT) {
         this.UT = UT;
     }
 
-    public Double getOV() {
+    public String getOV() {
         return OV;
     }
 
-    public void setOV(Double OV) {
+    public void setOV(String OV) {
         this.OV = OV;
     }
 
-    public Double getUV() {
+    public String getUV() {
         return UV;
     }
 
-    public void setUV(Double UV) {
+    public void setUV(String UV) {
         this.UV = UV;
     }
 

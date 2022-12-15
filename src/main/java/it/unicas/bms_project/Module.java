@@ -1,8 +1,5 @@
 package it.unicas.bms_project;
 
-import eu.hansolo.medusa.Gauge;
-import eu.hansolo.medusa.GaugeBuilder;
-import eu.hansolo.medusa.Section;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import javafx.application.Platform;
@@ -30,8 +27,12 @@ public class Module {
     private Double averageVoltage;
     private int maxCell;
     private int minCell;
-    private Double sum = 0.0;
+    private Tile currentTile;
+    public static Double sum = 0.0;
     public static Double maxTemp= -1000.0;
+    public static int voltageFaults = 0;
+    public static int temperatureFaults = 0;
+    public static Double currentFaults = 0.0;
 
 
     private void createTempSensors(Color backgroundColor, Color foregroundColor) {
@@ -66,6 +67,20 @@ public class Module {
             vectorCells.add(aux[i]);
         }
     }
+
+    private void createCurrent(Color backgroundColor, Color foregroundColor) {
+            currentTile = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
+                    .minWidth(200)
+                    .title("Current Plot")
+                    .titleAlignment(TextAlignment.CENTER)
+                    .unit("A")
+                    .backgroundColor(backgroundColor)
+                    .titleColor(foregroundColor)
+                    .valueColor(foregroundColor)
+                    .unitColor(foregroundColor)
+                    .build();
+    }
+
     public Module(int nCells, int nSensors, boolean current, boolean isSelected) {
         this.nSensors = nSensors;
         this.nCells = nCells;
@@ -81,6 +96,9 @@ public class Module {
         }
         createTempSensors(backgroundColor, foregroundColor);
         createCells(backgroundColor, foregroundColor);
+        if (current) {
+            createCurrent(backgroundColor, foregroundColor);
+        }
     }
 
 
@@ -90,6 +108,9 @@ public class Module {
         getVoltageData(sampleTime);
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        if (current) {
+            getCurrentData(sampleTime);
+        }
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
@@ -132,7 +153,11 @@ public class Module {
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
+                temperatureFaults = 0;
                 for (Tile i:vectorSensors) {
+                    int onesUT = bmsDataList.get(ref.n).getUT().length() - bmsDataList.get(ref.n).getUT().replaceAll("1", "").length();
+                    int onesOT = bmsDataList.get(ref.n).getOT().length() - bmsDataList.get(ref.n).getOT().replaceAll("1", "").length();
+                    voltageFaults = (onesOT + onesUT);
                     aux[0][0] = bmsDataList.get(ref.n).getTemp().get("Temp1").iterator().next();
                     aux[0][1] = bmsDataList.get(ref.n).getTemp().get("Temp2").iterator().next();
                     double x = aux[0][vectorSensors.indexOf(i)];
@@ -162,7 +187,11 @@ public class Module {
                 maxVoltage= -1000.0;
                 minVoltage = 1000000000.0;
                 sum = 0.0;
+                voltageFaults = 0;
                 for (Tile i:vectorCells) {
+                    int onesUV = bmsDataList.get(ref.n).getUV().length() - bmsDataList.get(ref.n).getUV().replaceAll("1", "").length();
+                    int onesOV = bmsDataList.get(ref.n).getOV().length() - bmsDataList.get(ref.n).getOV().replaceAll("1", "").length();
+                    voltageFaults = (onesOV + onesUV);
                     aux[0][0] = bmsDataList.get(ref.n).getVcell().get("Vcell1").iterator().next();
                     aux[0][1] = bmsDataList.get(ref.n).getVcell().get("Vcell2").iterator().next();
                     aux[0][2] = bmsDataList.get(ref.n).getVcell().get("Vcell3").iterator().next();
@@ -191,6 +220,28 @@ public class Module {
         }, 0, sampleTime, TimeUnit.SECONDS);
     }
 
+    private void getCurrentData(int sampleTime) {
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        var ref = new Object() {
+            int n = 0;
+        };
+
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> {
+                currentFaults = 0.0;
+
+                currentTile.setValue(bmsDataList.get(ref.n).getI());
+                currentFaults = bmsDataList.get(ref.n).getA() + bmsDataList.get(ref.n).getW();
+
+                ref.n++;
+                if (ref.n==100) {
+                    ref.n = 0;
+                }
+            });
+        }, 0, sampleTime, TimeUnit.SECONDS);
+    }
 
     public void showData(GridPane pane) {
         int col = 1;
@@ -206,6 +257,9 @@ public class Module {
                 col = 2;
             }
         }
+        if (current) {
+            pane.add(currentTile, 3, 0);
+        }
     }
 
     public void setDarkMode(Color backgroundColor, Color foregroundColor) {
@@ -216,6 +270,10 @@ public class Module {
         for (Tile i: vectorCells) {
             i.setBackgroundColor(backgroundColor);
             i.setForegroundBaseColor(foregroundColor);
+        }
+        if (current) {
+            currentTile.setBackgroundColor(backgroundColor);
+            currentTile.setForegroundBaseColor(foregroundColor);
         }
     }
 

@@ -13,7 +13,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -72,6 +75,9 @@ public class MainApp extends Application {
         sampleTime = Integer.parseInt(reader.readLine());
         outputPath = reader.readLine();
         currentMeasurements = Objects.equals(reader.readLine(), "Current measurements (yes)");
+        String name = java.time.LocalDateTime.now() +".txt";
+        file.renameTo(new File(name));
+        System.out.println("Input data saved in the file: "+name);
         reader.close();
 
 
@@ -98,11 +104,7 @@ public class MainApp extends Application {
                     .withType(BmsData.class)
                     .build()
                     .parse();
-            for(BmsData b :bmsDataList) {
-                //System.out.println(b.getVcell() + "    " + b.getVstack() + "    " + b.getTemp() + "   " + b.getSoc());
-            }
-            //Double x = bmsDataList.get(0).getTemp().get("Temp1").iterator().next();
-            //System.out.println(x);
+
 
 
 
