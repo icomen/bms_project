@@ -2,6 +2,7 @@ package it.unicas.bms_project;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
+import eu.hansolo.tilesfx.addons.Indicator;
 import javafx.application.Platform;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -103,7 +104,7 @@ public class Module {
 
 
 
-    public void getData(int sampleTime, Vector<Tile> statisticalData) {
+    public void getData(int sampleTime, Vector<Tile> statisticalData, Tile alertTile, Vector<Indicator> graphics) {
         getSensorsData(sampleTime);
         getVoltageData(sampleTime);
         ScheduledExecutorService scheduledExecutorService;
@@ -124,7 +125,12 @@ public class Module {
                 statisticalData.get(1).setDescription("Cell "+minCell);
                 statisticalData.get(2).setValue(vAverage);
                 statisticalData.get(3).setValue(deltaV);
-
+                alertTile.setLeftValue(voltageFaults);
+                graphics.get(0).setOn(voltageFaults>0);
+                alertTile.setMiddleValue(currentFaults);
+                graphics.get(1).setOn(currentFaults>0);
+                alertTile.setRightValue(temperatureFaults);
+                graphics.get(2).setOn(temperatureFaults>0);
                 });
         }, 0, sampleTime, TimeUnit.SECONDS);
     }

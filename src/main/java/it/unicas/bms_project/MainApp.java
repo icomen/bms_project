@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
@@ -36,6 +37,7 @@ public class MainApp extends Application {
     public static int sampleTime;
     public static String outputPath;
     public static boolean currentMeasurements;
+    private static Pane loc;
 
     public static RootLayoutController Rootcontroller;
     public static BmsOverviewController BMScontroller;
@@ -87,8 +89,8 @@ public class MainApp extends Application {
 
         // Set the application icon.
         this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
-        this.primaryStage.setWidth(900);
-        this.primaryStage.setHeight(650);
+        this.primaryStage.setWidth(1120);
+        this.primaryStage.setHeight(700);
 
 
 
@@ -104,7 +106,6 @@ public class MainApp extends Application {
                     .withType(BmsData.class)
                     .build()
                     .parse();
-
 
 
 
@@ -211,15 +212,14 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("MeasuresView.fxml"));
 
             // Set BMS overview into the center of root layout.
-            rootLayout.setCenter(loader.load());
-
-
-            // Give the controller access to the main app.
-            if (first) {
+            if(first) {
+                loc = loader.load();
                 MeasuresController = loader.getController();
                 MeasuresController.setMainApp(this);
             }
+            rootLayout.setCenter(loc);
             first = false;
+
 
 
         } catch (IOException e) {
@@ -240,6 +240,25 @@ public class MainApp extends Application {
 
             // Give the controller access to the main app.
             SourceViewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showSessionManagerView() {
+        try {
+            // Load BMS overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("SessionManagerView.fxml"));
+
+            // Set BMS overview into the center of root layout.
+            rootLayout.setCenter(loader.load());
+
+
+            // Give the controller access to the main app.
+            SessionManagerController controller = loader.getController();
             controller.setMainApp(this);
 
         } catch (IOException e) {
