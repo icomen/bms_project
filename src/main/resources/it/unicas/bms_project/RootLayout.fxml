@@ -39,15 +39,6 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="68.0" maxWidth="1.7976931348623157E308" onAction="#showSourceView" prefHeight="58.0" prefWidth="87.0" text="source">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../images/source.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
             <JFXButton contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="68.0" maxWidth="1.7976931348623157E308" onAction="#showMeasuresView" prefHeight="58.0" prefWidth="84.0" text="measurements">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">

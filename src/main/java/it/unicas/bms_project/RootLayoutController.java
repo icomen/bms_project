@@ -70,11 +70,13 @@ public class RootLayoutController {
     private void showBmsOverview() {
         mainApp.showBmsOverview();
     }
-
+/*
     @FXML
     private void showSourceView() {
         mainApp.showSourceView();
     }
+
+ */
 
     @FXML
     private void showMeasuresView() {

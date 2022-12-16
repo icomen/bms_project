@@ -229,7 +229,7 @@ public class MainApp extends Application {
 
 
     }
-
+/*
     public void showSourceView() {
         try {
             // Load BMS overview.
@@ -249,6 +249,7 @@ public class MainApp extends Application {
         }
     }
 
+ */
     public void showSessionManagerView() {
         try {
             // Load BMS overview.
