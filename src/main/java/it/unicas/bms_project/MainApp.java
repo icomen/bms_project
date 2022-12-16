@@ -71,7 +71,6 @@ public class MainApp extends Application {
 
     }
 
-
     public void terminateSession() throws IOException {
         primaryStage.getScene().getWindow().hide();
         MeasuresController.writeOutput();
