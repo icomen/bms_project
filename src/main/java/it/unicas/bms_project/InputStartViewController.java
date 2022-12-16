@@ -127,20 +127,20 @@ public class InputStartViewController {
         if (cells.getText() == null || cells.getText().length() == 0) {
             errorMessage += "No valid cells number!\n";
         }
-        if (Integer.parseInt(cells.getText())>8) {
-            errorMessage += "Can't have more than 8 cells!\n";
+        if (Integer.parseInt(cells.getText())>8 || Integer.parseInt(cells.getText())<1) {
+            errorMessage += "The number of cells is between 1 and 8!\n";
         }
         if (sensors.getText() == null || sensors.getText().length() == 0) {
             errorMessage += "No valid numbers of temp sensors!\n";
         }
-        if (Integer.parseInt(sensors.getText())>2) {
-            errorMessage += "Can't have more than 2 sensors!\n";
+        if (Integer.parseInt(sensors.getText())>2 || Integer.parseInt(sensors.getText())<1) {
+            errorMessage += "The number of sensors is between 1 and 2!\n";
         }
         if (modules.getText() == null || modules.getText().length() == 0) {
             errorMessage += "No valid modules number!\n";
         }
-        if (Integer.parseInt(modules.getText())>6) {
-            errorMessage += "Can't have more than 6 modules!\n";
+        if (Integer.parseInt(modules.getText())>6 || Integer.parseInt(modules.getText())<1) {
+            errorMessage += "The number of modules is between 1 and 6!\n";
         }
         if (sample.getText() == null || sample.getText().length() == 0){
             errorMessage += "No valid sample time!\n";
