@@ -94,7 +94,7 @@ public class InputStartViewController {
     private void handleOk() throws IOException {
         if (isInputValid()) {
             Date date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
             file = new File("input" + dateFormat.format(date) + ".txt");
 
             try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true))))
