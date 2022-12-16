@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import it.unicas.bms_project.NumberTextField?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.InputStartViewController">
     <center>
         <GridPane prefHeight="288.0" prefWidth="438.0" BorderPane.alignment="CENTER">
@@ -29,26 +30,26 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <TextField fx:id="cells" promptText="Cells number">
+                <NumberTextField fx:id="cells" promptText="Cells number">
                     <GridPane.margin>
                         <Insets left="60.0" right="60.0" />
                     </GridPane.margin>
-                </TextField>
-                <TextField fx:id="sensors" promptText="Number of temp sensors" GridPane.rowIndex="1">
+                </NumberTextField>
+                <NumberTextField fx:id="sensors" promptText="Number of temp sensors" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets left="60.0" right="60.0" />
                     </GridPane.margin>
-                </TextField>
-                <TextField fx:id="modules" promptText="Modules number" GridPane.rowIndex="2">
+                </NumberTextField>
+                <NumberTextField fx:id="modules" promptText="Modules number" GridPane.rowIndex="2">
                     <GridPane.margin>
                         <Insets left="60.0" right="60.0" />
                     </GridPane.margin>
-                </TextField>
-                <TextField fx:id="sample" promptText="Sample time" GridPane.rowIndex="3">
+                </NumberTextField>
+                <NumberTextField fx:id="sample" promptText="Sample time" GridPane.rowIndex="3">
                     <GridPane.margin>
                         <Insets left="60.0" right="60.0" />
                     </GridPane.margin>
-                </TextField>
+                </NumberTextField>
                 <ChoiceBox fx:id="choiceBox" prefHeight="26.0" prefWidth="454.0" GridPane.rowIndex="4">
                     <GridPane.margin>
                         <Insets left="60.0" right="60.0" />
@@ -74,8 +75,8 @@
                 <MenuButton fx:id="sourceSelection" layoutX="342.0" layoutY="20.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="95.0" text="Source" AnchorPane.rightAnchor="85.0">
                     <items>
                         <MenuItem fx:id="csv" mnemonicParsing="false" onAction="#fileChooser" text="CSV" />
-                        <MenuItem mnemonicParsing="false" text="USB" />
-                        <MenuItem mnemonicParsing="false" text="SERIAL" />
+                        <MenuItem mnemonicParsing="false" text="USB" disable="true" />
+                        <MenuItem mnemonicParsing="false" text="SERIAL" disable="true" />
                     </items>
                 </MenuButton>
             </children>

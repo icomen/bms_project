@@ -7,6 +7,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Objects;
 
 
 public class InputStartViewController {
@@ -15,20 +16,20 @@ public class InputStartViewController {
 
     private Stage dialogStage;
     @FXML
-    private TextField cells;
+    private NumberTextField cells;
     @FXML
-    private TextField sensors;
+    private NumberTextField sensors;
     @FXML
-    private TextField modules;
+    private NumberTextField modules;
     @FXML
-    private TextField sample;
-    
+    private NumberTextField sample;
+
     @FXML
     private Button dir;
 
     @FXML
     private Label labelSelectedDirectory;
-    
+
     @FXML
     private MenuButton sourceSelection;
 
@@ -120,12 +121,20 @@ public class InputStartViewController {
         if (cells.getText() == null || cells.getText().length() == 0) {
             errorMessage += "No valid cells number!\n";
         }
+        if (Integer.parseInt(cells.getText())>8) {
+            errorMessage += "Can't have more than 8 cells!\n";
+        }
         if (sensors.getText() == null || sensors.getText().length() == 0) {
             errorMessage += "No valid numbers of temp sensors!\n";
         }
-
+        if (Integer.parseInt(sensors.getText())>2) {
+            errorMessage += "Can't have more than 2 sensors!\n";
+        }
         if (modules.getText() == null || modules.getText().length() == 0) {
             errorMessage += "No valid modules number!\n";
+        }
+        if (Integer.parseInt(modules.getText())>6) {
+            errorMessage += "Can't have more than 6 modules!\n";
         }
         if (sample.getText() == null || sample.getText().length() == 0){
             errorMessage += "No valid sample time!\n";
@@ -183,26 +192,14 @@ public class InputStartViewController {
                     new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
             selectedFile = fileChooser.showOpenDialog(mainApp.getInputStage());
 
-        if (selectedFile == null) {
-            System.out.println("No File selected");
+            if (selectedFile == null) {
+                System.out.println("No File selected");
 
-        }
-        else {
-/*
-            CsvReader csvReader = new CsvReader();
-            csvReader.setProva(this);
-            try {
-                csvReader.readLineByLine(selectedFile.toPath());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
-
- */
-            System.out.println("File selected");
-            System.out.println(selectedFile.toPath());
-            //selectedFile.getAbsolutePath();
-            //mainApp.getInputStage().display(selectedFile);
-        }
+            else {
+                System.out.println("File selected");
+                System.out.println(selectedFile.toPath());
+            }
         });
     }
 

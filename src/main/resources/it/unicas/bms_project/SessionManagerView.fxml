@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.SessionManagerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="it.unicas.bms_project.SessionManagerController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -18,7 +17,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button layoutX="225.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Terminate Session">
+                  <Button layoutX="225.0" layoutY="53.0" mnemonicParsing="false" onAction="#terminateSession" prefHeight="25.0" prefWidth="125.0" text="Terminate Session">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

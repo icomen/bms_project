@@ -1,5 +1,6 @@
 package it.unicas.bms_project;
 
+import com.opencsv.CSVWriter;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.addons.Indicator;
@@ -11,6 +12,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Vector;
 
 public class MeasuresViewController{
@@ -133,7 +137,7 @@ public class MeasuresViewController{
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         boolean isSelected = mainApp.Rootcontroller.dm.isSelected();
         Color backgroundColor, foregroundColor;
         if (isSelected) {
@@ -172,6 +176,15 @@ public class MeasuresViewController{
             vector.get(i).getData(mainApp.sampleTime, statisticalData, statusTile, graphics);
             vector.get(i).showData(gridPane1);
         }
+    }
+
+    public void writeOutput() throws IOException {
+        String fileName = "output" + java.time.LocalDateTime.now() + ".csv";
+        String path = mainApp.outputPath+ "/" + fileName;
+        try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
+            writer.writeAll(vector.get(0).csvData);
+        }
+        System.out.println("Output file created in: " + path);
     }
 
     public void setDarkMode(Color backgroundColor, Color foregroundColor) {

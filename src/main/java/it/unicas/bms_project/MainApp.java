@@ -41,7 +41,7 @@ public class MainApp extends Application {
     private static Pane loc2;
 
     public static RootLayoutController Rootcontroller;
-    public static BmsOverviewController BMScontroller;
+    public static BmsOverviewController BmsOverviewController;
     public static MeasuresViewController MeasuresController;
     public static List<BmsData> bmsDataList;
 
@@ -67,6 +67,14 @@ public class MainApp extends Application {
         showInputStartView();
         this.inputStage.show();
 
+    }
+
+    public void terminateSession() throws IOException {
+        primaryStage.getScene().getWindow().hide();
+        MeasuresController.writeOutput();
+        start(inputStage);
+        inputStage.setHeight(700);
+        inputStage.setWidth(450);
     }
 
     public void setPrimaryStage(Stage primaryStage) throws IOException {
@@ -101,8 +109,8 @@ public class MainApp extends Application {
 
         if(first) {
             loc2 = loader2.load();
-            BMScontroller = loader2.getController();
-            BMScontroller.setMainApp(this);
+            BmsOverviewController = loader2.getController();
+            BmsOverviewController.setMainApp(this);
             loc = loader.load();
             MeasuresController = loader.getController();
             MeasuresController.setMainApp(this);
@@ -150,7 +158,11 @@ public class MainApp extends Application {
 
             primaryStage.setOnCloseRequest(event -> {
                 event.consume();
-                handleExit();
+                try {
+                    handleExit();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
 
 
@@ -166,7 +178,7 @@ public class MainApp extends Application {
     /**
      * Closes the application.
      */
-    public void handleExit() {
+    public void handleExit() throws IOException {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         if (Rootcontroller.dm.isSelected()) {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
@@ -184,6 +196,7 @@ public class MainApp extends Application {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOne){
+            MeasuresController.writeOutput();
             System.exit(0);
         }
 
@@ -289,7 +302,6 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        //System.out.println("Finito");
     }
 
 }

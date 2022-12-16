@@ -1,5 +1,7 @@
 package it.unicas.bms_project;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.CsvToBeanBuilder;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.addons.Indicator;
@@ -8,8 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
-import java.util.Random;
-import java.util.Vector;
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,10 +24,8 @@ public class Module {
     public int nSensors;
     public int nCells;
     public boolean current;
-    private static final Random RND = new Random();
     private Double maxVoltage = -1000.0;
     private Double minVoltage = + 1000.0;
-    private Double averageVoltage;
     private int maxCell;
     private int minCell;
     private Tile currentTile;
@@ -34,6 +34,18 @@ public class Module {
     public static int voltageFaults = 0;
     public static int temperatureFaults = 0;
     public static Double currentFaults = 0.0;
+    private String Temp[];
+    private String Volt[];
+    private String[] DataVolt;
+    private String[] DataTemp;
+    public ArrayList<String[]> csvData = new ArrayList<String[]>();
+
+
+
+
+
+
+
 
 
     private void createTempSensors(Color backgroundColor, Color foregroundColor) {
@@ -47,6 +59,7 @@ public class Module {
                     .foregroundBaseColor(foregroundColor)
                     .build();
             vectorSensors.add(aux[i]);
+            Temp[i] = "Temp"+(i+1);
         }
     }
 
@@ -66,6 +79,7 @@ public class Module {
                     .unitColor(foregroundColor)
                     .build();
             vectorCells.add(aux[i]);
+            Volt[i] = "Vcell"+(i+1);
         }
     }
 
@@ -82,11 +96,18 @@ public class Module {
                     .build();
     }
 
-    public Module(int nCells, int nSensors, boolean current, boolean isSelected) {
+    public Module(int nCells, int nSensors, boolean current, boolean isSelected) throws IOException {
         this.nSensors = nSensors;
         this.nCells = nCells;
         this.current = current;
+        Temp = new String[nSensors];
+        Volt = new String[nCells];
+        DataTemp = new String[nSensors];
+        DataVolt = new String[nCells];
+
         Color backgroundColor, foregroundColor;
+        String[] header;
+
         if (isSelected) {
             backgroundColor = Color.rgb(0, 0, 0);
             foregroundColor = Color.rgb(255, 255, 255);
@@ -99,41 +120,49 @@ public class Module {
         createCells(backgroundColor, foregroundColor);
         if (current) {
             createCurrent(backgroundColor, foregroundColor);
+            header = new String[]{Arrays.toString(Volt), Arrays.toString(Temp),"Soc","I","OV","UV","OT","UT","W","A"};
         }
+        else {
+            header = new String[]{Arrays.toString(Volt), Arrays.toString(Temp),"Soc","OV","UV","OT","UT","W","A"};
+        }
+        csvData.add(header);
     }
 
 
 
     public void getData(int sampleTime, Vector<Tile> statisticalData, Tile alertTile, Vector<Indicator> graphics) {
-        getSensorsData(sampleTime);
-        getVoltageData(sampleTime);
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        if (current) {
-            getCurrentData(sampleTime);
-        }
+        var ref = new Object() {
+            int n = 0;
+        };
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                double vmax = getMaxVoltage();
-                double vmin = getMinVoltage();
-                double vAverage = getAverageVoltage();
-                double deltaV = Math.abs(vmax-vmin);
-                statisticalData.get(0).setValue(vmax);
-                statisticalData.get(0).setDescription("Cell "+maxCell);
-                statisticalData.get(1).setValue(vmin);
-                statisticalData.get(1).setDescription("Cell "+minCell);
-                statisticalData.get(2).setValue(vAverage);
-                statisticalData.get(3).setValue(deltaV);
-                alertTile.setLeftValue(voltageFaults);
-                graphics.get(0).setOn(voltageFaults>0);
-                alertTile.setMiddleValue(currentFaults);
-                graphics.get(1).setOn(currentFaults>0);
-                alertTile.setRightValue(temperatureFaults);
-                graphics.get(2).setOn(temperatureFaults>0);
-                });
+                getSensorsData(ref.n);
+                getVoltageData(ref.n);
+                if (current) {
+                    getCurrentData(ref.n);
+                }
+                getStatisticalData(statisticalData, alertTile, graphics);
+
+                String[] data;
+                if (current) {
+                    data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getI().toString(), bmsDataList.get(ref.n).getOV().toString(), bmsDataList.get(ref.n).getUV().toString(), bmsDataList.get(ref.n).getOT().toString(), bmsDataList.get(ref.n).getUT().toString(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
+                }
+                else {
+                    data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getOV().toString(), bmsDataList.get(ref.n).getUV().toString(), bmsDataList.get(ref.n).getOT().toString(), bmsDataList.get(ref.n).getUT().toString(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
+                }
+                csvData.add(data);
+
+                ref.n++;
+                if (ref.n==100) {
+                    ref.n = 0;
+                }
+            });
         }, 0, sampleTime, TimeUnit.SECONDS);
     }
+
 
     private double getMaxVoltage() {
         return maxVoltage;
@@ -148,106 +177,81 @@ public class Module {
         return sum/nCells;
     }
 
-    private void getSensorsData(int sampleTime) {
+    private void getSensorsData(int n) {
         double[][] aux = new double[1][2];
-
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        var ref = new Object() {
-            int n = 0;
-        };
-
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                maxTemp = -1000.0;
-                temperatureFaults = 0;
-                for (Tile i:vectorSensors) {
-                    int onesUT = bmsDataList.get(ref.n).getUT().length() - bmsDataList.get(ref.n).getUT().replaceAll("1", "").length();
-                    int onesOT = bmsDataList.get(ref.n).getOT().length() - bmsDataList.get(ref.n).getOT().replaceAll("1", "").length();
-                    temperatureFaults = (onesOT + onesUT);
-                    aux[0][0] = bmsDataList.get(ref.n).getTemp().get("Temp1").iterator().next();
-                    aux[0][1] = bmsDataList.get(ref.n).getTemp().get("Temp2").iterator().next();
-                    double x = aux[0][vectorSensors.indexOf(i)];
-                    i.setValue(x);
-                    if (x>maxTemp) {
-                        maxTemp = x;
-                    }
-                }
-                ref.n++;
-                if (ref.n==100) {
-                    ref.n = 0;
-                }
-            });
-        }, 0, sampleTime, TimeUnit.SECONDS);
+        maxTemp = -1000.0;
+        temperatureFaults = 0;
+        for (Tile i:vectorSensors) {
+            int onesUT = bmsDataList.get(n).getUT().length() - bmsDataList.get(n).getUT().replaceAll("1", "").length();
+            int onesOT = bmsDataList.get(n).getOT().length() - bmsDataList.get(n).getOT().replaceAll("1", "").length();
+            temperatureFaults = (onesOT + onesUT);
+            aux[0][0] = bmsDataList.get(n).getTemp().get("Temp1").iterator().next();
+            aux[0][1] = bmsDataList.get(n).getTemp().get("Temp2").iterator().next();
+            double x = aux[0][vectorSensors.indexOf(i)];
+            i.setValue(x);
+            if (x>maxTemp) {
+                maxTemp = x;
+            }
+            DataTemp[vectorSensors.indexOf(i)] = String.valueOf(x);
+        }
     }
 
-    private void getVoltageData(int sampleTime) {
+    private void getVoltageData(int n) {
         double[][] aux = new double[1][8];
-
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        var ref = new Object() {
-            int n = 0;
-        };
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                maxVoltage= -1000.0;
-                minVoltage = 1000000000.0;
-                sum = 0.0;
-                voltageFaults = 0;
-                for (Tile i:vectorCells) {
-                    int onesUV = bmsDataList.get(ref.n).getUV().length() - bmsDataList.get(ref.n).getUV().replaceAll("1", "").length();
-                    int onesOV = bmsDataList.get(ref.n).getOV().length() - bmsDataList.get(ref.n).getOV().replaceAll("1", "").length();
-                    voltageFaults = (onesOV + onesUV);
-                    aux[0][0] = bmsDataList.get(ref.n).getVcell().get("Vcell1").iterator().next();
-                    aux[0][1] = bmsDataList.get(ref.n).getVcell().get("Vcell2").iterator().next();
-                    aux[0][2] = bmsDataList.get(ref.n).getVcell().get("Vcell3").iterator().next();
-                    aux[0][3] = bmsDataList.get(ref.n).getVcell().get("Vcell4").iterator().next();
-                    aux[0][4] = bmsDataList.get(ref.n).getVcell().get("Vcell5").iterator().next();
-                    aux[0][5] = bmsDataList.get(ref.n).getVcell().get("Vcell6").iterator().next();
-                    aux[0][6] = bmsDataList.get(ref.n).getVcell().get("Vcell7").iterator().next();
-                    aux[0][7] = bmsDataList.get(ref.n).getVcell().get("Vcell8").iterator().next();
-                    double x = aux[0][vectorCells.indexOf(i)];
-                    i.setValue(x);
-                    if (x>maxVoltage) {
-                        maxVoltage = x;
-                        maxCell = vectorCells.indexOf(i) + 1;
-                    }
-                    if (x<minVoltage) {
-                        minVoltage = x;
-                        minCell = vectorCells.indexOf(i) + 1;
-                    }
-                    sum+=x;
-                }
-                ref.n++;
-                if (ref.n==100) {
-                    ref.n = 0;
-                }
-            });
-        }, 0, sampleTime, TimeUnit.SECONDS);
+        maxVoltage= -1000.0;
+        minVoltage = 1000000000.0;
+        sum = 0.0;
+        voltageFaults = 0;
+        for (Tile i:vectorCells) {
+            int onesUV = bmsDataList.get(n).getUV().length() - bmsDataList.get(n).getUV().replaceAll("1", "").length();
+            int onesOV = bmsDataList.get(n).getOV().length() - bmsDataList.get(n).getOV().replaceAll("1", "").length();
+            voltageFaults = (onesOV + onesUV);
+            aux[0][0] = bmsDataList.get(n).getVcell().get("Vcell1").iterator().next();
+            aux[0][1] = bmsDataList.get(n).getVcell().get("Vcell2").iterator().next();
+            aux[0][2] = bmsDataList.get(n).getVcell().get("Vcell3").iterator().next();
+            aux[0][3] = bmsDataList.get(n).getVcell().get("Vcell4").iterator().next();
+            aux[0][4] = bmsDataList.get(n).getVcell().get("Vcell5").iterator().next();
+            aux[0][5] = bmsDataList.get(n).getVcell().get("Vcell6").iterator().next();
+            aux[0][6] = bmsDataList.get(n).getVcell().get("Vcell7").iterator().next();
+            aux[0][7] = bmsDataList.get(n).getVcell().get("Vcell8").iterator().next();
+            double x = aux[0][vectorCells.indexOf(i)];
+            i.setValue(x);
+            if (x>maxVoltage) {
+                maxVoltage = x;
+                maxCell = vectorCells.indexOf(i) + 1;
+            }
+            if (x<minVoltage) {
+                minVoltage = x;
+                minCell = vectorCells.indexOf(i) + 1;
+            }
+            DataVolt[vectorCells.indexOf(i)] = String.valueOf(x);
+            sum+=x;
+        }
     }
 
-    private void getCurrentData(int sampleTime) {
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+    private void getCurrentData(int n) {
+        currentFaults = 0.0;
+        currentTile.setValue(bmsDataList.get(n).getI());
+        currentFaults = bmsDataList.get(n).getA() + bmsDataList.get(n).getW();
+    }
 
-        var ref = new Object() {
-            int n = 0;
-        };
-
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                currentFaults = 0.0;
-
-                currentTile.setValue(bmsDataList.get(ref.n).getI());
-                currentFaults = bmsDataList.get(ref.n).getA() + bmsDataList.get(ref.n).getW();
-
-                ref.n++;
-                if (ref.n==100) {
-                    ref.n = 0;
-                }
-            });
-        }, 0, sampleTime, TimeUnit.SECONDS);
+    private void getStatisticalData(Vector<Tile> statisticalData, Tile alertTile, Vector<Indicator> graphics) {
+        double vmax = getMaxVoltage();
+        double vmin = getMinVoltage();
+        double vAverage = getAverageVoltage();
+        double deltaV = Math.abs(vmax-vmin);
+        statisticalData.get(0).setValue(vmax);
+        statisticalData.get(0).setDescription("Cell "+maxCell);
+        statisticalData.get(1).setValue(vmin);
+        statisticalData.get(1).setDescription("Cell "+minCell);
+        statisticalData.get(2).setValue(vAverage);
+        statisticalData.get(3).setValue(deltaV);
+        alertTile.setLeftValue(voltageFaults);
+        graphics.get(0).setOn(voltageFaults>0);
+        alertTile.setMiddleValue(currentFaults);
+        graphics.get(1).setOn(currentFaults>0);
+        alertTile.setRightValue(temperatureFaults);
+        graphics.get(2).setOn(temperatureFaults>0);
     }
 
     public void showData(GridPane pane) {

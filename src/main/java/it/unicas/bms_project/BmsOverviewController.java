@@ -9,9 +9,12 @@ import eu.hansolo.tilesfx.addons.Indicator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.image.ImageView;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -23,7 +26,8 @@ import java.util.concurrent.TimeUnit;
 import static it.unicas.bms_project.MainApp.nCells;
 import static it.unicas.bms_project.MainApp.sampleTime;
 
-public class BmsOverviewController{
+public class BmsOverviewController {
+
     private MainApp mainApp;
     private static final Random RND = new Random();
     public Tile fireSmokeTile;
@@ -34,19 +38,8 @@ public class BmsOverviewController{
     private final Indicator middleGraphics = new Indicator();
     private final Indicator rightGraphics = new Indicator();
 
-    public static final int TILE_WIDTH = 200;
-    public static final int TILE_HEIGHT = 300;
-
     @FXML
     private HBox hBox;
-
-    /*
-    @FXML
-    public ImageView blackImage;
-    @FXML
-    public ImageView whiteImage;
-
-     */
 
 
 
@@ -64,9 +57,7 @@ public class BmsOverviewController{
         };
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                fireSmokeTile.setValue(Module.maxTemp);
-                /*
-                double x = RND.nextDouble() * 100;
+                double x = Module.maxTemp;
                 fireSmokeTile.setValue(x);
 
                 if (x>60) {
@@ -78,7 +69,6 @@ public class BmsOverviewController{
                     alert.setHeaderText("Temperature above 60ºC!!");
                     alert.showAndWait();
                 }
-                */
                 ref.i++;
             });
         }, 0, sampleTime, TimeUnit.SECONDS);
@@ -91,20 +81,8 @@ public class BmsOverviewController{
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
-                Double x = (Module.sum/nCells)/4.5*100;
+                double x = (Module.sum/nCells)*100/4.5;
                 batteryGauge.setValue(x);
-                /*
-                if (x<10) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    if (MainApp.Rootcontroller.dm.isSelected()) {
-                        alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
-
-                    }
-                    alert.setTitle("WARNING");
-                    alert.setHeaderText("Battery level below 10%");
-                    alert.showAndWait();
-                }
-                 */
             });
         }, 0, sampleTime, TimeUnit.SECONDS);
 
@@ -141,12 +119,12 @@ public class BmsOverviewController{
         gridPane.add(batteryGauge, 0, 1);
         gridPane.add(statusTile, 0, 0);
 
+        hBox.setAlignment(Pos.TOP_LEFT);
         hBox.getChildren().add(gridPane);
         gridPane.setFillWidth(hBox, true);
         gridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
         gridPane.setVgap(10); //vertical gap in pixels
         gridPane.setPadding(new Insets(10, 10, 10, 10));
-
 
         changeAlerts();
         changeBattery();
@@ -159,20 +137,16 @@ public class BmsOverviewController{
         if (mainApp.Rootcontroller.dm.isSelected()) {
             backgroundColor = Color.rgb(0, 0, 0);
             foregroundColor = Color.rgb(255, 255, 255);
-            //whiteImage.setOpacity(0);
-            //blackImage.setOpacity(1);
         }
         else {
             foregroundColor = Color.rgb(0, 0, 0);
             backgroundColor = Color.rgb(255, 255, 255);
-            //whiteImage.setOpacity(1);
-            //blackImage.setOpacity(0);
         }
         fireSmokeTile = TileBuilder.create().skinType(Tile.SkinType.FIRE_SMOKE)
-                .prefSize(TILE_WIDTH+145, TILE_HEIGHT+145)
+                .prefSize(300, 300)
                 .title("Temperature sensor")
                 .titleAlignment(TextAlignment.CENTER)
-                .unit("\u00b0C")
+                .unit("°C")
                 .threshold(40) // triggers the fire and smoke effect
                 .decimals(2)
                 .animated(true)
@@ -184,6 +158,8 @@ public class BmsOverviewController{
 
         batteryGauge = GaugeBuilder.create()
                 .skinType(Gauge.SkinType.BATTERY)
+                .prefSize(300, 200)
+                .value(50)
                 .animated(true)
                 .sectionsVisible(true)
                 .sections(new Section(0, 10, Color.rgb(200, 0, 0, 0.8)),
@@ -206,7 +182,7 @@ public class BmsOverviewController{
         leftGraphics.setOn(false);
         statusTile = TileBuilder.create()
                 .skinType(Tile.SkinType.STATUS)
-                .prefSize(TILE_WIDTH+200, TILE_HEIGHT)
+                .prefSize(400, 200)
                 .title("Alerts overview")
                 .titleAlignment(TextAlignment.CENTER)
                 .leftText("Voltage alert")
@@ -225,5 +201,6 @@ public class BmsOverviewController{
         this.mainApp = mainApp;
 
     }
+
 
 }

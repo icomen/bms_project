@@ -7,6 +7,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
+
 
 /**
  * The controller for the root layout. The root layout provides the basic
@@ -59,7 +61,7 @@ public class RootLayoutController {
      */
 
     @FXML
-    private void handleExit() {
+    private void handleExit() throws IOException {
         mainApp.handleExit();
 
     }
@@ -90,31 +92,31 @@ public class RootLayoutController {
         isSelected = dm.isSelected();
         Color backgroundColor;
         Color foregroundColor;
-            if (isSelected) {
-                dm.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
-                backgroundColor = Color.rgb(0,0,0);
-                foregroundColor = Color.rgb(255, 255, 255);
-                //mainApp.BMScontroller.whiteImage.setOpacity(0);
-                //mainApp.BMScontroller.blackImage.setOpacity(1);
-            }
-            else {
-                dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
-                foregroundColor = Color.rgb(0,0,0);
-                backgroundColor = Color.rgb(255, 255, 255);
-                //mainApp.BMScontroller.whiteImage.setOpacity(1);
-                //mainApp.BMScontroller.blackImage.setOpacity(0);
-            }
-        mainApp.BMScontroller.fireSmokeTile.setBackgroundColor(backgroundColor);
-        mainApp.BMScontroller.fireSmokeTile.setValueColor(foregroundColor);
-        mainApp.BMScontroller.fireSmokeTile.setUnitColor(foregroundColor);
-        mainApp.BMScontroller.fireSmokeTile.setTitleColor(foregroundColor);
+        if (isSelected) {
+            dm.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+            backgroundColor = Color.rgb(0,0,0);
+            foregroundColor = Color.rgb(255, 255, 255);
+            //mainApp.BMScontroller.whiteImage.setOpacity(0);
+            //mainApp.BMScontroller.blackImage.setOpacity(1);
+        }
+        else {
+            dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
+            foregroundColor = Color.rgb(0,0,0);
+            backgroundColor = Color.rgb(255, 255, 255);
+            //mainApp.BMScontroller.whiteImage.setOpacity(1);
+            //mainApp.BMScontroller.blackImage.setOpacity(0);
+        }
+        mainApp.BmsOverviewController.fireSmokeTile.setBackgroundColor(backgroundColor);
+        mainApp.BmsOverviewController.fireSmokeTile.setValueColor(foregroundColor);
+        mainApp.BmsOverviewController.fireSmokeTile.setUnitColor(foregroundColor);
+        mainApp.BmsOverviewController.fireSmokeTile.setTitleColor(foregroundColor);
 
-        mainApp.BMScontroller.batteryGauge.setForegroundBaseColor(foregroundColor);
-        mainApp.BMScontroller.batteryGauge.setBarBackgroundColor(foregroundColor);
+        mainApp.BmsOverviewController.batteryGauge.setForegroundBaseColor(foregroundColor);
+        mainApp.BmsOverviewController.batteryGauge.setBarBackgroundColor(foregroundColor);
 
-        mainApp.BMScontroller.statusTile.setBackgroundColor(backgroundColor);
-        mainApp.BMScontroller.statusTile.setTitleColor(foregroundColor);
-        mainApp.BMScontroller.statusTile.setForegroundColor(foregroundColor);
+        mainApp.BmsOverviewController.statusTile.setBackgroundColor(backgroundColor);
+        mainApp.BmsOverviewController.statusTile.setTitleColor(foregroundColor);
+        mainApp.BmsOverviewController.statusTile.setForegroundColor(foregroundColor);
 
 
         if (mainApp.MeasuresController != null) {
