@@ -49,64 +49,35 @@ public class BmsOverviewController {
 
 
     private void changeTemperature () {
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        double x = Module.maxTemp;
+        fireSmokeTile.setValue(x);
 
-        var ref = new Object() {
-            int i = 0;
-        };
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                double x = Module.maxTemp;
-                fireSmokeTile.setValue(x);
-
-                if (x>60) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    if (MainApp.Rootcontroller.dm.isSelected()) {
-                        alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
-                    }
-                    alert.setTitle("DANGER");
-                    alert.setHeaderText("Temperature above 60ºC!!");
-                    alert.showAndWait();
-                }
-                ref.i++;
-            });
-        }, 0, sampleTime, TimeUnit.SECONDS);
-
+        if (x>60) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            if (MainApp.Rootcontroller.dm.isSelected()) {
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
+            }
+            alert.setTitle("DANGER");
+            alert.setHeaderText("Temperature above 60ºC!!");
+            alert.showAndWait();
+        }
     }
 
     private void changeBattery () {
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                double x = (Module.sum/nCells)*100/4.5;
-                batteryGauge.setValue(x);
-            });
-        }, 0, sampleTime, TimeUnit.SECONDS);
-
-
+        double x = (Module.sum/nCells)*100/4.5;
+        batteryGauge.setValue(x);
     }
 
     private void changeAlerts () {
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                int r = Module.temperatureFaults;
-                Double m = Module.currentFaults;
-                int l = Module.voltageFaults;
-                rightGraphics.setOn(r>0);
-                statusTile.setRightValue(r);
-                middleGraphics.setOn(m>0);
-                statusTile.setMiddleValue(m);
-                leftGraphics.setOn(l>0);
-                statusTile.setLeftValue(l);
-            });
-        }, 0, sampleTime, TimeUnit.SECONDS);
-
+        int r = Module.temperatureFaults;
+        Double m = Module.currentFaults;
+        int l = Module.voltageFaults;
+        rightGraphics.setOn(r>0);
+        statusTile.setRightValue(r);
+        middleGraphics.setOn(m>0);
+        statusTile.setMiddleValue(m);
+        leftGraphics.setOn(l>0);
+        statusTile.setLeftValue(l);
     }
 
 
@@ -126,9 +97,16 @@ public class BmsOverviewController {
         gridPane.setVgap(10); //vertical gap in pixels
         gridPane.setPadding(new Insets(10, 10, 10, 10));
 
-        changeAlerts();
-        changeBattery();
-        changeTemperature();
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> {
+                changeAlerts();
+                changeBattery();
+                changeTemperature();
+            });
+        }, 0, sampleTime, TimeUnit.SECONDS);
     }
 
     private void createTile() {
