@@ -16,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 public class MeasuresViewController{
@@ -180,7 +182,9 @@ public class MeasuresViewController{
     }
 
     public void writeOutput() throws IOException {
-        String fileName = "output" + java.time.LocalDateTime.now() + ".csv";
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm") ;
+        String fileName = "output" + dateFormat.format(date) + ".csv";
         Path path = Paths.get(mainApp.outputPath,fileName);
         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))) {
             writer.writeAll(vector.get(0).csvData);
