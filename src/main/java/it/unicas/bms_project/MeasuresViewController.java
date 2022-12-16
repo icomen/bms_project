@@ -185,6 +185,7 @@ public class MeasuresViewController{
         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))) {
             writer.writeAll(vector.get(0).csvData);
         }
+
         System.out.println("Output file created in: " + path);
     }
 
