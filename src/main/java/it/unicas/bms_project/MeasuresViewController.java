@@ -183,7 +183,7 @@ public class MeasuresViewController{
 
     public void writeOutput() throws IOException {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm") ;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm");
         String fileName = "output" + dateFormat.format(date) + ".csv";
         Path path = Paths.get(mainApp.outputPath,fileName);
         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))) {

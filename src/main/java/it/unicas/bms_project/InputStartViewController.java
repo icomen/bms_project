@@ -7,6 +7,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -44,6 +46,8 @@ public class InputStartViewController {
     private String[] current_measurements = {"Current measurements (yes)\n", "Current measurements (no)\n"};
 
     private boolean okClicked = false;
+
+    public static File file;
 
 
     /**
@@ -89,8 +93,11 @@ public class InputStartViewController {
     @FXML
     private void handleOk() throws IOException {
         if (isInputValid()) {
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm");
+            file = new File("input" + dateFormat.format(date) + ".txt");
 
-            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("myfile.txt", true))))
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true))))
             {
                 out.println(cells.getText());
                 out.println(sensors.getText());

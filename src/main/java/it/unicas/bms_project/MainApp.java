@@ -18,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -78,17 +80,21 @@ public class MainApp extends Application {
     }
 
     public void setPrimaryStage(Stage primaryStage) throws IOException {
-        File file = new File("myfile.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+        //Date date = new Date();
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm");
+        //File file = new File("input" + dateFormat.format(date) + ".txt");
+        BufferedReader reader = new BufferedReader(new FileReader(InputStartViewController.file));
         nCells = Integer.parseInt(reader.readLine());
         nSensors = Integer.parseInt(reader.readLine());
         nModules = Integer.parseInt(reader.readLine());
         sampleTime = Integer.parseInt(reader.readLine());
         outputPath = reader.readLine();
         currentMeasurements = Objects.equals(reader.readLine(), "Current measurements (yes)");
-        String name = java.time.LocalDateTime.now() +".txt";
-        file.renameTo(new File(name));
-        System.out.println("Input data saved in the file: "+name);
+
+        //String fileName = "output" + dateFormat.format(date) + ".csv";
+        //String name = java.time.LocalDateTime.now() +".txt";
+        //file.renameTo(new File(name));
+        System.out.println("Input data saved in the file: "+ InputStartViewController.file);
         reader.close();
 
 
