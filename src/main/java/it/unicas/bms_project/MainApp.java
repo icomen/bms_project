@@ -39,8 +39,8 @@ public class MainApp extends Application {
     public static int sampleTime;
     public static String outputPath;
     public static boolean currentMeasurements;
-    private static Pane loc;
-    private static Pane loc2;
+    private Pane loc;
+    private Pane loc2;
 
     public static RootLayoutController Rootcontroller;
     public static BmsOverviewController BmsOverviewController;
@@ -74,15 +74,16 @@ public class MainApp extends Application {
     public void terminateSession() throws IOException {
         primaryStage.getScene().getWindow().hide();
         MeasuresController.writeOutput();
+        if (Rootcontroller.dm.isSelected()){
+            Rootcontroller.dm.setSelected(false);
+            Rootcontroller.setDarkMode();
+        }
         start(inputStage);
         inputStage.setHeight(700);
         inputStage.setWidth(450);
     }
 
     public void setPrimaryStage(Stage primaryStage) throws IOException {
-        //Date date = new Date();
-        //SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm");
-        //File file = new File("input" + dateFormat.format(date) + ".txt");
         BufferedReader reader = new BufferedReader(new FileReader(InputStartViewController.file));
         nCells = Integer.parseInt(reader.readLine());
         nSensors = Integer.parseInt(reader.readLine());
@@ -90,10 +91,6 @@ public class MainApp extends Application {
         sampleTime = Integer.parseInt(reader.readLine());
         outputPath = reader.readLine();
         currentMeasurements = Objects.equals(reader.readLine(), "Current measurements (yes)");
-
-        //String fileName = "output" + dateFormat.format(date) + ".csv";
-        //String name = java.time.LocalDateTime.now() +".txt";
-        //file.renameTo(new File(name));
         System.out.println("Input data saved in the file: "+ InputStartViewController.file);
         reader.close();
 
@@ -252,7 +249,6 @@ public class MainApp extends Application {
  */
     public void showSessionManagerView() {
         try {
-            // Load BMS overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("SessionManagerView.fxml"));
 
