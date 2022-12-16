@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Vector;
 
 public class MeasuresViewController{
@@ -180,8 +181,8 @@ public class MeasuresViewController{
 
     public void writeOutput() throws IOException {
         String fileName = "output" + java.time.LocalDateTime.now() + ".csv";
-        String path = mainApp.outputPath+ fileName;
-        try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
+        Path path = Paths.get(mainApp.outputPath,fileName);
+        try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))) {
             writer.writeAll(vector.get(0).csvData);
         }
         System.out.println("Output file created in: " + path);
