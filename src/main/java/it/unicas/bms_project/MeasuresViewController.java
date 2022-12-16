@@ -180,7 +180,7 @@ public class MeasuresViewController{
 
     public void writeOutput() throws IOException {
         String fileName = "output" + java.time.LocalDateTime.now() + ".csv";
-        String path = mainApp.outputPath+ "/" + fileName;
+        String path = mainApp.outputPath+ fileName;
         try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
             writer.writeAll(vector.get(0).csvData);
         }

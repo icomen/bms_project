@@ -96,7 +96,6 @@ public class InputStartViewController {
                 out.println(sensors.getText());
                 out.println(modules.getText());
                 out.println(sample.getText());
-                //out.println(path.getText());
                 out.println(labelSelectedDirectory.getText());
                 out.println(choiceBox.getValue());
             } catch (IOException e) {
