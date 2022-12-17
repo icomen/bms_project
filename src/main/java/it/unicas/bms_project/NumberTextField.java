@@ -24,6 +24,7 @@ public class NumberTextField extends TextField
         }
     }
 
+
     private boolean validate(String text)
     {
         return text.matches("[0-9]*");
