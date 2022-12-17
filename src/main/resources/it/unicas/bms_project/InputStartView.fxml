@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import it.unicas.bms_project.NumberTextField?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicas.bms_project.InputStartViewController">
     <center>
         <GridPane prefHeight="288.0" prefWidth="438.0" BorderPane.alignment="CENTER">
