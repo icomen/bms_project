@@ -188,7 +188,7 @@ public class MainApp extends Application {
         }
         alert.setTitle("Confirm Exit");
         alert.setHeaderText("Are you sure you want to exit?");
-        alert.getDialogPane().setContent(new CheckBox("Don't ask again"));
+        //alert.getDialogPane().setContent(new CheckBox("Don't ask again"));
 
 
         ButtonType buttonTypeOne = new ButtonType("Exit");
