@@ -1,9 +1,6 @@
 package it.unicas.bms_project;
 
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
-
-import java.awt.*;
 import java.io.IOException;
 
 public class SessionManagerController {

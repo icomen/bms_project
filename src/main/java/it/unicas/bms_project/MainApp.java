@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -15,11 +14,8 @@ import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -227,27 +223,7 @@ public class MainApp extends Application {
 
 
     }
-/*
-    public void showSourceView() {
-        try {
-            // Load BMS overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("SourceView.fxml"));
 
-            // Set BMS overview into the center of root layout.
-            rootLayout.setCenter(loader.load());
-
-
-            // Give the controller access to the main app.
-            SourceViewController controller = loader.getController();
-            controller.setMainApp(this);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
- */
     public void showSessionManagerView() {
         try {
             FXMLLoader loader = new FXMLLoader();
