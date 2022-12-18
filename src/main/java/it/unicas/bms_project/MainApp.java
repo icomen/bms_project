@@ -78,6 +78,7 @@ public class MainApp extends Application {
             Rootcontroller.dm.setSelected(false);
             Rootcontroller.setDarkMode();
         }
+        first = true;
         start(inputStage);
         inputStage.setHeight(700);
         inputStage.setWidth(450);
