@@ -10,11 +10,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="kordamp.bootstrapfx.core" level="project" />
-    <orderEntry type="library" exported="" name="jfoenix" level="project" />
-    <orderEntry type="library" exported="" name="eu.hansolo.tilesfx" level="project" />
-    <orderEntry type="library" exported="" name="eu.hansolo.medusa" level="project" />
-    <orderEntry type="library" exported="" name="opencsv" level="project" />
+    <orderEntry type="library" name="kordamp.bootstrapfx.core" level="project" />
+    <orderEntry type="library" name="jfoenix" level="project" />
+    <orderEntry type="library" name="eu.hansolo.tilesfx" level="project" />
+    <orderEntry type="library" name="eu.hansolo.medusa" level="project" />
+    <orderEntry type="library" name="opencsv" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:19-ea+7" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:19-ea+7" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:19-ea+7" level="project" />
