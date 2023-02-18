@@ -8,7 +8,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -147,7 +150,7 @@ public class MeasuresViewController{
         AnchorPane.setRightAnchor(gridPane, 0d);
 
 
-        boolean isSelected = mainApp.Rootcontroller.dm.isSelected();
+        boolean isSelected = MainApp.Rootcontroller.dm.isSelected();
         Color backgroundColor, foregroundColor;
         if (isSelected) {
             backgroundColor = Color.rgb(0, 0, 0);
@@ -169,11 +172,11 @@ public class MeasuresViewController{
             column ++;
         }
         gridPane.add(statusTile, column, 0);
-        for (int i = 0; i<mainApp.nModules; i++) {
-            Module module = new Module(mainApp.nCells, mainApp.nSensors, mainApp.currentMeasurements, mainApp.Rootcontroller.dm.isSelected());
+        for (int i = 0; i< MainApp.nModules; i++) {
+            Module module = new Module(MainApp.nCells, MainApp.nSensors, MainApp.currentMeasurements, MainApp.Rootcontroller.dm.isSelected());
             GridPane gridPane1 = new GridPane();
             hBox.getChildren().add(gridPane1);
-            gridPane1.setFillWidth(hBox, true);
+            GridPane.setFillWidth(hBox, true);
             gridPane1.setHgap(10); //horizontal gap in pixels => that's what you are asking for
             gridPane1.setVgap(10); //vertical gap in pixels
             gridPane1.setPadding(new Insets(10, 10, 10, 10));
@@ -182,7 +185,7 @@ public class MeasuresViewController{
             tab.setText("Module "+(i+1));
             tabPane.getTabs().add(tab);
             tab.setContent(gridPane1);
-            vector.get(i).getData(mainApp.sampleTime, statisticalData, statusTile, graphics);
+            vector.get(i).getData(MainApp.sampleTime, statisticalData, statusTile, graphics);
             vector.get(i).showData(gridPane1);
         }
     }
@@ -191,7 +194,7 @@ public class MeasuresViewController{
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
         String fileName = "output" + dateFormat.format(date) + ".csv";
-        Path path = Paths.get(mainApp.outputPath,fileName);
+        Path path = Paths.get(MainApp.outputPath,fileName);
         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))) {
             writer.writeAll(vector.get(0).csvData);
         }

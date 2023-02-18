@@ -2,24 +2,22 @@ package it.unicas.bms_project;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -69,19 +67,26 @@ public class MainApp extends Application {
         showInputStartView();
         this.inputStage.show();
 
+
+
+
+
     }
 
     public void terminateSession() throws IOException {
         primaryStage.getScene().getWindow().hide();
+
         MeasuresController.writeOutput();
         if (Rootcontroller.dm.isSelected()){
             Rootcontroller.dm.setSelected(false);
             Rootcontroller.setDarkMode();
         }
         first = true;
-        start(inputStage);
-        inputStage.setHeight(700);
-        inputStage.setWidth(450);
+        Stage newInput = new Stage();
+        newInput.setWidth(450);
+        newInput.setHeight(640);
+        start(newInput);
+
     }
 
     public void setPrimaryStage(Stage primaryStage) throws IOException {
@@ -102,8 +107,6 @@ public class MainApp extends Application {
 
         // Set the application icon.
         this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
-        //this.primaryStage.setWidth(1150);
-        //this.primaryStage.setHeight(700);
         this.primaryStage.setMinWidth(1150);
         this.primaryStage.setMinHeight(700);
 
@@ -281,6 +284,7 @@ public class MainApp extends Application {
             //inputStartView.setCenter(loader.load());
             Scene scene = new Scene(inputStartView);
             inputStage.setScene(scene);
+
 
             inputStage.setOnCloseRequest(event -> {
                 event.consume();

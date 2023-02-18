@@ -104,21 +104,21 @@ public class RootLayoutController {
             foregroundColor = Color.rgb(0,0,0);
             backgroundColor = Color.rgb(255, 255, 255);
         }
-        mainApp.BmsOverviewController.fireSmokeTile.setBackgroundColor(backgroundColor);
-        mainApp.BmsOverviewController.fireSmokeTile.setValueColor(foregroundColor);
-        mainApp.BmsOverviewController.fireSmokeTile.setUnitColor(foregroundColor);
-        mainApp.BmsOverviewController.fireSmokeTile.setTitleColor(foregroundColor);
+        MainApp.BmsOverviewController.fireSmokeTile.setBackgroundColor(backgroundColor);
+        MainApp.BmsOverviewController.fireSmokeTile.setValueColor(foregroundColor);
+        MainApp.BmsOverviewController.fireSmokeTile.setUnitColor(foregroundColor);
+        MainApp.BmsOverviewController.fireSmokeTile.setTitleColor(foregroundColor);
 
-        mainApp.BmsOverviewController.batteryGauge.setForegroundBaseColor(foregroundColor);
-        mainApp.BmsOverviewController.batteryGauge.setBarBackgroundColor(foregroundColor);
+        MainApp.BmsOverviewController.batteryGauge.setForegroundBaseColor(foregroundColor);
+        MainApp.BmsOverviewController.batteryGauge.setBarBackgroundColor(foregroundColor);
 
-        mainApp.BmsOverviewController.statusTile.setBackgroundColor(backgroundColor);
-        mainApp.BmsOverviewController.statusTile.setTitleColor(foregroundColor);
-        mainApp.BmsOverviewController.statusTile.setForegroundColor(foregroundColor);
+        MainApp.BmsOverviewController.statusTile.setBackgroundColor(backgroundColor);
+        MainApp.BmsOverviewController.statusTile.setTitleColor(foregroundColor);
+        MainApp.BmsOverviewController.statusTile.setForegroundColor(foregroundColor);
 
 
-        if (mainApp.MeasuresController != null) {
-            mainApp.MeasuresController.setDarkMode(backgroundColor, foregroundColor);
+        if (MainApp.MeasuresController != null) {
+            MainApp.MeasuresController.setDarkMode(backgroundColor, foregroundColor);
         }
     }
 

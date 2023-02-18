@@ -1,7 +1,5 @@
 package it.unicas.bms_project;
 
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.CsvToBeanBuilder;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.addons.Indicator;
@@ -10,8 +8,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,10 +34,10 @@ public class Module {
     public static int voltageFaults = 0;
     public static int temperatureFaults = 0;
     public static Double currentFaults = 0.0;
-    private String Temp[];
-    private String Volt[];
-    private String[] DataVolt;
-    private String[] DataTemp;
+    private final String[] Temp;
+    private final String[] Volt;
+    private final String[] DataVolt;
+    private final String[] DataTemp;
     public ArrayList<String[]> csvData = new ArrayList<String[]>();
 
 
@@ -49,7 +49,7 @@ public class Module {
 
 
     private void createTempSensors(Color backgroundColor, Color foregroundColor) {
-        Tile aux[] = new Tile[2];
+        Tile[] aux = new Tile[2];
         for (int i = 0; i < nSensors; i++) {
             aux[i] = TileBuilder.create()
                     .skinType(Tile.SkinType.GAUGE)
@@ -64,7 +64,7 @@ public class Module {
     }
 
     private void createCells(Color backgroundColor, Color foregroundColor) {
-        Tile aux[] = new Tile[8];
+        Tile[] aux = new Tile[8];
         for (int i = 0; i < nCells; i++) {
             aux[i] = TileBuilder.create().skinType(Tile.SkinType.GAUGE)
                     .minWidth(200)
@@ -148,10 +148,10 @@ public class Module {
 
                 String[] data;
                 if (current) {
-                    data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getI().toString(), bmsDataList.get(ref.n).getOV().toString(), bmsDataList.get(ref.n).getUV().toString(), bmsDataList.get(ref.n).getOT().toString(), bmsDataList.get(ref.n).getUT().toString(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
+                    data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getI().toString(), bmsDataList.get(ref.n).getOV(), bmsDataList.get(ref.n).getUV(), bmsDataList.get(ref.n).getOT(), bmsDataList.get(ref.n).getUT(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
                 }
                 else {
-                    data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getOV().toString(), bmsDataList.get(ref.n).getUV().toString(), bmsDataList.get(ref.n).getOT().toString(), bmsDataList.get(ref.n).getUT().toString(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
+                    data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getOV(), bmsDataList.get(ref.n).getUV(), bmsDataList.get(ref.n).getOT(), bmsDataList.get(ref.n).getUT(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
                 }
                 csvData.add(data);
 

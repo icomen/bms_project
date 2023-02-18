@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 
 public class InputStartViewController {
@@ -43,7 +42,7 @@ public class InputStartViewController {
 
     public static File selectedFile;
 
-    private String[] current_measurements = {"Current measurements (yes)\n", "Current measurements (no)\n"};
+    private final String[] current_measurements = {"Current measurements (yes)\n", "Current measurements (no)\n"};
 
     private boolean okClicked = false;
 

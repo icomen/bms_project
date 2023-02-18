@@ -13,8 +13,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -92,7 +90,7 @@ public class BmsOverviewController {
 
         hBox.setAlignment(Pos.TOP_LEFT);
         hBox.getChildren().add(gridPane);
-        gridPane.setFillWidth(hBox, true);
+        GridPane.setFillWidth(hBox, true);
         gridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
         gridPane.setVgap(10); //vertical gap in pixels
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -112,7 +110,7 @@ public class BmsOverviewController {
     private void createTile() {
         Color backgroundColor;
         Color foregroundColor;
-        if (mainApp.Rootcontroller.dm.isSelected()) {
+        if (MainApp.Rootcontroller.dm.isSelected()) {
             backgroundColor = Color.rgb(0, 0, 0);
             foregroundColor = Color.rgb(255, 255, 255);
         }
