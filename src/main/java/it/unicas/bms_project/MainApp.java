@@ -102,8 +102,12 @@ public class MainApp extends Application {
 
         // Set the application icon.
         this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/battery.png"));
-        this.primaryStage.setWidth(1150);
-        this.primaryStage.setHeight(700);
+        //this.primaryStage.setWidth(1150);
+        //this.primaryStage.setHeight(700);
+        this.primaryStage.setMinWidth(1150);
+        this.primaryStage.setMinHeight(700);
+
+
 
         initRootLayout();
         FXMLLoader loader = new FXMLLoader();

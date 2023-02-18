@@ -141,6 +141,12 @@ public class MeasuresViewController{
 
     @FXML
     public void initialize() throws IOException {
+        AnchorPane.setBottomAnchor(gridPane, 0d);
+        AnchorPane.setTopAnchor(gridPane, 0d);
+        AnchorPane.setLeftAnchor(gridPane, 0d);
+        AnchorPane.setRightAnchor(gridPane, 0d);
+
+
         boolean isSelected = mainApp.Rootcontroller.dm.isSelected();
         Color backgroundColor, foregroundColor;
         if (isSelected) {
