@@ -4,18 +4,17 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 
-public class SessionManagerController {
-
+public class SessionManagerController
+{
     private MainApp mainApp;
-
-
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(MainApp mainApp)
+    {
         this.mainApp = mainApp;
     }
 
     @FXML
-    private void terminateSession() throws IOException {
+    private void terminateSession() throws IOException
+    {
         mainApp.terminateSession();
     }
-
 }

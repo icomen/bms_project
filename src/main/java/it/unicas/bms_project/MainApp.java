@@ -2,7 +2,6 @@ package it.unicas.bms_project;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.BufferedReader;
@@ -24,7 +22,8 @@ import java.util.Optional;
 
 import static it.unicas.bms_project.InputStartViewController.selectedFile;
 
-public class MainApp extends Application {
+public class MainApp extends Application
+{
 
     private Stage primaryStage;
     private Stage inputStage;
@@ -51,12 +50,14 @@ public class MainApp extends Application {
     /**
      * Constructor
      */
-    public MainApp() {
+    public MainApp()
+    {
     }
 
 
     @Override
-    public void start(Stage inputStage) {
+    public void start(Stage inputStage)
+    {
         this.inputStage = inputStage;
         this.inputStage.setTitle("Welcome BMS App");
         this.inputStage.setResizable(false);
@@ -73,11 +74,13 @@ public class MainApp extends Application {
 
     }
 
-    public void terminateSession() throws IOException {
+    public void terminateSession() throws IOException
+    {
         primaryStage.getScene().getWindow().hide();
 
         MeasuresController.writeOutput();
-        if (Rootcontroller.dm.isSelected()){
+        if (Rootcontroller.dm.isSelected())
+        {
             Rootcontroller.dm.setSelected(false);
             Rootcontroller.setDarkMode();
         }
@@ -89,7 +92,8 @@ public class MainApp extends Application {
 
     }
 
-    public void setPrimaryStage(Stage primaryStage) throws IOException {
+    public void setPrimaryStage(Stage primaryStage) throws IOException
+    {
         BufferedReader reader = new BufferedReader(new FileReader(InputStartViewController.file));
         nCells = Integer.parseInt(reader.readLine());
         nSensors = Integer.parseInt(reader.readLine());
@@ -118,7 +122,8 @@ public class MainApp extends Application {
         FXMLLoader loader2 = new FXMLLoader();
         loader2.setLocation(MainApp.class.getResource("BmsOverview.fxml"));
 
-        if(first) {
+        if(first)
+        {
             loc2 = loader2.load();
             BmsOverviewController = loader2.getController();
             BmsOverviewController.setMainApp(this);
@@ -130,31 +135,30 @@ public class MainApp extends Application {
         showBmsOverview();
 
 
-        try {
+        try
+        {
             System.out.println("File read");
-
 
             bmsDataList = new CsvToBeanBuilder(new FileReader(selectedFile))
                     .withType(BmsData.class)
                     .build()
                     .parse();
 
-
-
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
 
         this.primaryStage.show();
-
-
     }
 
     /**
      * Initializes the root layout
      */
-    public void initRootLayout() {
-        try {
+    public void initRootLayout()
+    {
+        try
+        {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("RootLayout.fxml"));
@@ -165,22 +169,23 @@ public class MainApp extends Application {
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             primaryStage.setScene(scene);
 
-
-
-            primaryStage.setOnCloseRequest(event -> {
+            primaryStage.setOnCloseRequest(event ->
+            {
                 event.consume();
-                try {
+                try
+                {
                     handleExit();
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     throw new RuntimeException(e);
                 }
             });
 
-
             // Give the controller access to the main app.
             Rootcontroller = loader.getController();
             Rootcontroller.setMainApp(this);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
@@ -189,9 +194,11 @@ public class MainApp extends Application {
     /**
      * Closes the application.
      */
-    public void handleExit() throws IOException {
+    public void handleExit() throws IOException
+    {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        if (Rootcontroller.dm.isSelected()) {
+        if (Rootcontroller.dm.isSelected())
+        {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
         }
         alert.setTitle("Confirm Exit");
@@ -206,56 +213,35 @@ public class MainApp extends Application {
         alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeOne){
+        if (result.get() == buttonTypeOne)
+        {
             MeasuresController.writeOutput();
             System.exit(0);
         }
 
     }
 
-    public void simpleExit() {
+    public void simpleExit()
+    {
         System.exit(0);
-
     }
 
     /**
      * Shows the BMS overview inside the root layout.
      */
 
-    public void showBmsOverview() {
+    public void showBmsOverview()
+    {
         // Set BMS overview into the center of root layout.
         rootLayout.setCenter(loc2);
-
     }
 
-    public void showMeasuresView() {
-
+    public void showMeasuresView()
+    {
         rootLayout.setCenter(loc);
-
-
     }
-/*
-    public void showSourceView() {
-        try {
-            // Load BMS overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("SourceView.fxml"));
-
-            // Set BMS overview into the center of root layout.
-            rootLayout.setCenter(loader.load());
-
-
-            // Give the controller access to the main app.
-            SourceViewController controller = loader.getController();
-            controller.setMainApp(this);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
- */
-    public void showSessionManagerView() {
+    public void showSessionManagerView()
+    {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("SessionManagerView.fxml"));
@@ -268,13 +254,16 @@ public class MainApp extends Application {
             SessionManagerController controller = loader.getController();
             controller.setMainApp(this);
 
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    public void showInputStartView() {
-        try {
+    public void showInputStartView()
+    {
+        try
+        {
             // Load BMS overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("InputStartView.fxml"));
@@ -286,7 +275,8 @@ public class MainApp extends Application {
             inputStage.setScene(scene);
 
 
-            inputStage.setOnCloseRequest(event -> {
+            inputStage.setOnCloseRequest(event ->
+            {
                 event.consume();
                 simpleExit();
             });
@@ -295,24 +285,18 @@ public class MainApp extends Application {
             InputStartViewController controller = loader.getController();
             controller.setMainApp(this);
 
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Returns the main stage.
-     * @return
-     */
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public Stage getInputStage() {
+    public Stage getInputStage()
+    {
         return inputStage;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 

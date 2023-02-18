@@ -18,7 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 import static it.unicas.bms_project.MainApp.bmsDataList;
 
-public class Module {
+public class Module
+{
     public Vector<Tile> vectorSensors = new Vector<Tile>();
     public Vector<Tile> vectorCells = new Vector<Tile>();
     public int nSensors;
@@ -40,17 +41,11 @@ public class Module {
     private final String[] DataTemp;
     public ArrayList<String[]> csvData = new ArrayList<String[]>();
 
-
-
-
-
-
-
-
-
-    private void createTempSensors(Color backgroundColor, Color foregroundColor) {
+    private void createTempSensors(Color backgroundColor, Color foregroundColor)
+    {
         Tile[] aux = new Tile[2];
-        for (int i = 0; i < nSensors; i++) {
+        for (int i = 0; i < nSensors; i++)
+        {
             aux[i] = TileBuilder.create()
                     .skinType(Tile.SkinType.GAUGE)
                     .minWidth(200)
@@ -63,9 +58,11 @@ public class Module {
         }
     }
 
-    private void createCells(Color backgroundColor, Color foregroundColor) {
+    private void createCells(Color backgroundColor, Color foregroundColor)
+    {
         Tile[] aux = new Tile[8];
-        for (int i = 0; i < nCells; i++) {
+        for (int i = 0; i < nCells; i++)
+        {
             aux[i] = TileBuilder.create().skinType(Tile.SkinType.GAUGE)
                     .minWidth(200)
                     .title("Cell "+(i+1)+ " voltage")
@@ -83,20 +80,22 @@ public class Module {
         }
     }
 
-    private void createCurrent(Color backgroundColor, Color foregroundColor) {
-            currentTile = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
-                    .minWidth(200)
-                    .title("Current Plot")
-                    .titleAlignment(TextAlignment.CENTER)
-                    .unit("A")
-                    .backgroundColor(backgroundColor)
-                    .titleColor(foregroundColor)
-                    .valueColor(foregroundColor)
-                    .unitColor(foregroundColor)
-                    .build();
+    private void createCurrent(Color backgroundColor, Color foregroundColor)
+    {
+        currentTile = TileBuilder.create().skinType(Tile.SkinType.SPARK_LINE)
+                .minWidth(200)
+                .title("Current Plot")
+                .titleAlignment(TextAlignment.CENTER)
+                .unit("A")
+                .backgroundColor(backgroundColor)
+                .titleColor(foregroundColor)
+                .valueColor(foregroundColor)
+                .unitColor(foregroundColor)
+                .build();
     }
 
-    public Module(int nCells, int nSensors, boolean current, boolean isSelected) throws IOException {
+    public Module(int nCells, int nSensors, boolean current, boolean isSelected) throws IOException
+    {
         this.nSensors = nSensors;
         this.nCells = nCells;
         this.current = current;
@@ -108,21 +107,25 @@ public class Module {
         Color backgroundColor, foregroundColor;
         String[] header;
 
-        if (isSelected) {
+        if (isSelected)
+        {
             backgroundColor = Color.rgb(0, 0, 0);
             foregroundColor = Color.rgb(255, 255, 255);
         }
-        else {
+        else
+        {
             foregroundColor = Color.rgb(0, 0, 0);
             backgroundColor = Color.rgb(255, 255, 255);
         }
         createTempSensors(backgroundColor, foregroundColor);
         createCells(backgroundColor, foregroundColor);
-        if (current) {
+        if (current)
+        {
             createCurrent(backgroundColor, foregroundColor);
             header = new String[]{Arrays.toString(Volt), Arrays.toString(Temp),"Soc","I","OV","UV","OT","UT","W","A"};
         }
-        else {
+        else
+        {
             header = new String[]{Arrays.toString(Volt), Arrays.toString(Temp),"Soc","OV","UV","OT","UT","W","A"};
         }
         csvData.add(header);
@@ -130,33 +133,39 @@ public class Module {
 
 
 
-    public void getData(int sampleTime, Vector<Tile> statisticalData, Tile alertTile, Vector<Indicator> graphics) {
+    public void getData(int sampleTime, Vector<Tile> statisticalData, Tile alertTile, Vector<Indicator> graphics)
+    {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        var ref = new Object() {
+        var ref = new Object()
+        {
             int n = 0;
         };
 
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
+        scheduledExecutorService.scheduleAtFixedRate(() ->
+        {
+            Platform.runLater(() ->
+            {
                 getSensorsData(ref.n);
                 getVoltageData(ref.n);
                 if (current) {
                     getCurrentData(ref.n);
                 }
                 getStatisticalData(statisticalData, alertTile, graphics);
-
                 String[] data;
-                if (current) {
+                if (current)
+                {
                     data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getI().toString(), bmsDataList.get(ref.n).getOV(), bmsDataList.get(ref.n).getUV(), bmsDataList.get(ref.n).getOT(), bmsDataList.get(ref.n).getUT(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
                 }
-                else {
+                else
+                {
                     data = new String[]{Arrays.toString(DataVolt), Arrays.toString(DataTemp), bmsDataList.get(ref.n).getSoc().toString(), bmsDataList.get(ref.n).getOV(), bmsDataList.get(ref.n).getUV(), bmsDataList.get(ref.n).getOT(), bmsDataList.get(ref.n).getUT(), bmsDataList.get(ref.n).getW().toString(), bmsDataList.get(ref.n).getA().toString()};
                 }
                 csvData.add(data);
 
                 ref.n++;
-                if (ref.n==100) {
+                if (ref.n==100)
+                {
                     ref.n = 0;
                 }
             });
@@ -164,24 +173,29 @@ public class Module {
     }
 
 
-    private double getMaxVoltage() {
+    private double getMaxVoltage()
+    {
         return maxVoltage;
     }
 
 
-    private double getMinVoltage() {
+    private double getMinVoltage()
+    {
         return minVoltage;
     }
 
-    private double getAverageVoltage() {
+    private double getAverageVoltage()
+    {
         return sum/nCells;
     }
 
-    private void getSensorsData(int n) {
+    private void getSensorsData(int n)
+    {
         double[][] aux = new double[1][2];
         maxTemp = -1000.0;
         temperatureFaults = 0;
-        for (Tile i:vectorSensors) {
+        for (Tile i:vectorSensors)
+        {
             int onesUT = bmsDataList.get(n).getUT().length() - bmsDataList.get(n).getUT().replaceAll("1", "").length();
             int onesOT = bmsDataList.get(n).getOT().length() - bmsDataList.get(n).getOT().replaceAll("1", "").length();
             temperatureFaults = (onesOT + onesUT);
@@ -189,20 +203,23 @@ public class Module {
             aux[0][1] = bmsDataList.get(n).getTemp().get("Temp2").iterator().next();
             double x = aux[0][vectorSensors.indexOf(i)];
             i.setValue(x);
-            if (x>maxTemp) {
+            if (x>maxTemp)
+            {
                 maxTemp = x;
             }
             DataTemp[vectorSensors.indexOf(i)] = String.valueOf(x);
         }
     }
 
-    private void getVoltageData(int n) {
+    private void getVoltageData(int n)
+    {
         double[][] aux = new double[1][8];
         maxVoltage= -1000.0;
         minVoltage = 1000000000.0;
         sum = 0.0;
         voltageFaults = 0;
-        for (Tile i:vectorCells) {
+        for (Tile i:vectorCells)
+        {
             int onesUV = bmsDataList.get(n).getUV().length() - bmsDataList.get(n).getUV().replaceAll("1", "").length();
             int onesOV = bmsDataList.get(n).getOV().length() - bmsDataList.get(n).getOV().replaceAll("1", "").length();
             voltageFaults = (onesOV + onesUV);
@@ -216,11 +233,13 @@ public class Module {
             aux[0][7] = bmsDataList.get(n).getVcell().get("Vcell8").iterator().next();
             double x = aux[0][vectorCells.indexOf(i)];
             i.setValue(x);
-            if (x>maxVoltage) {
+            if (x>maxVoltage)
+            {
                 maxVoltage = x;
                 maxCell = vectorCells.indexOf(i) + 1;
             }
-            if (x<minVoltage) {
+            if (x<minVoltage)
+            {
                 minVoltage = x;
                 minCell = vectorCells.indexOf(i) + 1;
             }
@@ -229,13 +248,15 @@ public class Module {
         }
     }
 
-    private void getCurrentData(int n) {
+    private void getCurrentData(int n)
+    {
         currentFaults = 0.0;
         currentTile.setValue(bmsDataList.get(n).getI());
         currentFaults = bmsDataList.get(n).getA() + bmsDataList.get(n).getW();
     }
 
-    private void getStatisticalData(Vector<Tile> statisticalData, Tile alertTile, Vector<Indicator> graphics) {
+    private void getStatisticalData(Vector<Tile> statisticalData, Tile alertTile, Vector<Indicator> graphics)
+    {
         double vmax = getMaxVoltage();
         double vmin = getMinVoltage();
         double vAverage = getAverageVoltage();
@@ -254,38 +275,46 @@ public class Module {
         graphics.get(2).setOn(temperatureFaults>0);
     }
 
-    public void showData(GridPane pane) {
+    public void showData(GridPane pane)
+    {
         int col = 1;
         int row = 0;
-        for (int i = 0; i<nSensors; i++) {
+        for (int i = 0; i<nSensors; i++)
+        {
             pane.add(vectorSensors.get(i), i, 0);
         }
-        for (int i = 0; i<nCells; i++) {
+        for (int i = 0; i<nCells; i++)
+        {
             pane.add(vectorCells.get(i), row, col);
             row++;
-            if (i==3) {
+            if (i==3)
+            {
                 row = 0;
                 col = 2;
             }
         }
-        if (current) {
+        if (current)
+        {
             pane.add(currentTile, 3, 0);
         }
     }
 
-    public void setDarkMode(Color backgroundColor, Color foregroundColor) {
-        for (Tile i: vectorSensors) {
+    public void setDarkMode(Color backgroundColor, Color foregroundColor)
+    {
+        for (Tile i: vectorSensors)
+        {
             i.setBackgroundColor(backgroundColor);
             i.setForegroundBaseColor(foregroundColor);
         }
-        for (Tile i: vectorCells) {
+        for (Tile i: vectorCells)
+        {
             i.setBackgroundColor(backgroundColor);
             i.setForegroundBaseColor(foregroundColor);
         }
-        if (current) {
+        if (current)
+        {
             currentTile.setBackgroundColor(backgroundColor);
             currentTile.setForegroundBaseColor(foregroundColor);
         }
     }
-
 }

@@ -1,4 +1,5 @@
-module it.unicas.bms_project {
+module it.unicas.bms_project
+{
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;

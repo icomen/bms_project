@@ -24,7 +24,8 @@ import java.util.concurrent.TimeUnit;
 import static it.unicas.bms_project.MainApp.nCells;
 import static it.unicas.bms_project.MainApp.sampleTime;
 
-public class BmsOverviewController {
+public class BmsOverviewController
+{
 
     private MainApp mainApp;
     private static final Random RND = new Random();
@@ -41,18 +42,21 @@ public class BmsOverviewController {
 
 
 
-    public BmsOverviewController() {
-
+    public BmsOverviewController()
+    {
     }
 
 
-    private void changeTemperature () {
+    private void changeTemperature ()
+    {
         double x = Module.maxTemp;
         fireSmokeTile.setValue(x);
 
-        if (x>60) {
+        if (x>60)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            if (MainApp.Rootcontroller.dm.isSelected()) {
+            if (MainApp.Rootcontroller.dm.isSelected())
+            {
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
             }
             alert.setTitle("DANGER");
@@ -61,12 +65,14 @@ public class BmsOverviewController {
         }
     }
 
-    private void changeBattery () {
+    private void changeBattery ()
+    {
         double x = (Module.sum/nCells)*100/4.5;
         batteryGauge.setValue(x);
     }
 
-    private void changeAlerts () {
+    private void changeAlerts ()
+    {
         int r = Module.temperatureFaults;
         Double m = Module.currentFaults;
         int l = Module.voltageFaults;
@@ -80,7 +86,8 @@ public class BmsOverviewController {
 
 
     @FXML
-    private void initialize() {
+    private void initialize()
+    {
         createTile();
 
         GridPane gridPane = new GridPane();
@@ -98,8 +105,10 @@ public class BmsOverviewController {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
+        scheduledExecutorService.scheduleAtFixedRate(() ->
+        {
+            Platform.runLater(() ->
+            {
                 changeAlerts();
                 changeBattery();
                 changeTemperature();
@@ -107,14 +116,17 @@ public class BmsOverviewController {
         }, 0, sampleTime, TimeUnit.SECONDS);
     }
 
-    private void createTile() {
+    private void createTile()
+    {
         Color backgroundColor;
         Color foregroundColor;
-        if (MainApp.Rootcontroller.dm.isSelected()) {
+        if (MainApp.Rootcontroller.dm.isSelected())
+        {
             backgroundColor = Color.rgb(0, 0, 0);
             foregroundColor = Color.rgb(255, 255, 255);
         }
-        else {
+        else
+        {
             foregroundColor = Color.rgb(0, 0, 0);
             backgroundColor = Color.rgb(255, 255, 255);
         }
@@ -145,8 +157,6 @@ public class BmsOverviewController {
                 .barBackgroundColor(foregroundColor)
                 .build();
 
-
-
         rightGraphics.setDotOffColor(Tile.GREEN);
         rightGraphics.setDotOnColor(Tile.RED);
         rightGraphics.setOn(false);
@@ -173,9 +183,9 @@ public class BmsOverviewController {
                 .build();
     }
 
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(MainApp mainApp)
+    {
         this.mainApp = mainApp;
-
     }
 
 

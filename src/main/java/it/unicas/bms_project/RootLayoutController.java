@@ -18,88 +18,79 @@ import java.io.IOException;
  * @author Enrico Castrechini
  * @author Micaela Rivas
  */
-public class RootLayoutController {
-
+public class RootLayoutController
+{
     // Reference to the main application
     private MainApp mainApp;
     @FXML
     public JFXToggleButton dm;
-
 
     /**
      * Is called by the main application to give a reference back to itself.
      *
      * @param mainApp
      */
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(MainApp mainApp)
+    {
         this.mainApp = mainApp;
     }
-
-
-
 
     /**
      * Opens an about dialog.
      */
     @FXML
-    private void handleAbout() {
+    private void handleAbout()
+    {
         Alert alert = new Alert(AlertType.INFORMATION);
-        if (dm.isSelected()) {
+        if (dm.isSelected())
+        {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
         }
         alert.setTitle("BMS App");
         alert.setHeaderText("About");
-
         alert.setContentText("Author: Enrico Castrechini & Micaela Rivas\nWebsite: http://www.unicas.it");
-
         alert.showAndWait();
     }
-
 
     /**
      * Closes the application.
      */
-
     @FXML
-    private void handleExit() throws IOException {
+    private void handleExit() throws IOException
+    {
         mainApp.handleExit();
-
     }
 
     @FXML
-    private void showBmsOverview() {
+    private void showBmsOverview()
+    {
         mainApp.showBmsOverview();
     }
-/*
     @FXML
-    private void showSourceView() {
-        mainApp.showSourceView();
-    }
-
- */
-
-    @FXML
-    private void showMeasuresView() {
+    private void showMeasuresView()
+    {
         mainApp.showMeasuresView();
     }
-
     @FXML
-    private void showSessionManagerView(){
+    private void showSessionManagerView()
+    {
         mainApp.showSessionManagerView();
     }
-
     @FXML
-    public void setDarkMode() {
+    public void setDarkMode()
+    {
         Boolean isSelected;
         isSelected = dm.isSelected();
         Color backgroundColor;
         Color foregroundColor;
-        if (isSelected) {
+        if (isSelected)
+        {
             dm.getScene().getRoot().getStylesheets().add(getClass().getResource("DarkTheme.css").toString());
             backgroundColor = Color.rgb(0,0,0);
             foregroundColor = Color.rgb(255, 255, 255);
         }
-        else {
+        else
+        {
             dm.getScene().getRoot().getStylesheets().remove(getClass().getResource("DarkTheme.css").toString());
             foregroundColor = Color.rgb(0,0,0);
             backgroundColor = Color.rgb(255, 255, 255);
@@ -117,9 +108,9 @@ public class RootLayoutController {
         MainApp.BmsOverviewController.statusTile.setForegroundColor(foregroundColor);
 
 
-        if (MainApp.MeasuresController != null) {
+        if (MainApp.MeasuresController != null)
+        {
             MainApp.MeasuresController.setDarkMode(backgroundColor, foregroundColor);
         }
     }
-
 }

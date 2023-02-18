@@ -4,7 +4,8 @@ import com.opencsv.bean.CsvBindAndJoinByName;
 import com.opencsv.bean.CsvBindByName;
 import org.apache.commons.collections4.MultiValuedMap;
 
-public class BmsData {
+public class BmsData
+{
 
 
     @CsvBindByName(column = "Vstack")
@@ -41,95 +42,117 @@ public class BmsData {
     @CsvBindAndJoinByName(column = "Temp[0-9]+", elementType = Double.class)
     private MultiValuedMap<String, Double> Temp;
 
-    public BmsData() {
-
+    public BmsData()
+    {
     }
 
-    public String getOT() {
+    public String getOT()
+    {
         return OT;
     }
 
-    public void setOT(String OT) {
+    public void setOT(String OT)
+    {
         this.OT = OT;
     }
 
-    public String getUT() {
+    public String getUT()
+    {
         return UT;
     }
 
-    public void setUT(String UT) {
+    public void setUT(String UT)
+    {
         this.UT = UT;
     }
 
-    public String getOV() {
+    public String getOV()
+    {
         return OV;
     }
 
-    public void setOV(String OV) {
+    public void setOV(String OV)
+    {
         this.OV = OV;
     }
 
-    public String getUV() {
+    public String getUV()
+    {
         return UV;
     }
 
-    public void setUV(String UV) {
+    public void setUV(String UV)
+    {
         this.UV = UV;
     }
 
-    public Double getVstack() {
+    public Double getVstack()
+    {
         return Vstack;
     }
 
-    public void setVstack(Double vstack) {
+    public void setVstack(Double vstack)
+    {
         Vstack = vstack;
     }
 
-    public Double getSoc() {
+    public Double getSoc()
+    {
         return Soc;
     }
 
-    public void setSoc(Double soc) {
+    public void setSoc(Double soc)
+    {
         Soc = soc;
     }
 
-    public Double getI() {
+    public Double getI()
+    {
         return I;
     }
 
-    public void setI(Double i) {
+    public void setI(Double i)
+    {
         I = i;
     }
 
-    public Double getW() {
+    public Double getW()
+    {
         return W;
     }
 
-    public void setW(Double w) {
+    public void setW(Double w)
+    {
         W = w;
     }
 
-    public Double getA() {
+    public Double getA()
+    {
         return A;
     }
 
-    public void setA(Double a) {
+    public void setA(Double a)
+    {
         A = a;
     }
 
-    public MultiValuedMap<String, Double> getVcell() {
+    public MultiValuedMap<String, Double> getVcell()
+    {
         return Vcell;
     }
 
-    public void setVcell(MultiValuedMap<String, Double> vcell) {
+    public void setVcell(MultiValuedMap<String, Double> vcell)
+    {
         Vcell = vcell;
     }
 
-    public MultiValuedMap<String, Double> getTemp() {
+    public MultiValuedMap<String, Double> getTemp()
+    {
         return Temp;
     }
 
-    public void setTemp(MultiValuedMap<String, Double> temp) {
+    public void setTemp(MultiValuedMap<String, Double> temp)
+    {
         Temp = temp;
     }
 

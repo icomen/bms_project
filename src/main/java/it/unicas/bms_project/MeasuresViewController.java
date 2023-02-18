@@ -23,9 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
-public class MeasuresViewController{
+public class MeasuresViewController
+{
     private MainApp mainApp;
-
     public Vector<Module> vector = new Vector<>();
     Vector<Indicator> graphics = new Vector<>();
     TabPane tabPane = new TabPane();
@@ -40,16 +40,18 @@ public class MeasuresViewController{
     public Tile statusTile;
 
 
-    public MeasuresViewController() {
-
+    public MeasuresViewController()
+    {
     }
 
 
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(MainApp mainApp)
+    {
         this.mainApp = mainApp;
     }
 
-    private void createStatisticalDataTile(Color backgroundColor, Color foregroundColor) {
+    private void createStatisticalDataTile(Color backgroundColor, Color foregroundColor)
+    {
         Tile Vmax = TileBuilder.create()
                 .skinType(Tile.SkinType.NUMBER)
                 .value(0.0)
@@ -93,7 +95,8 @@ public class MeasuresViewController{
         statisticalData.add(Vaverage);
         statisticalData.add(deltaV);
 
-        for (Tile i:statisticalData) {
+        for (Tile i:statisticalData)
+        {
             i.setTextVisible(true);
             i.setTextAlignment(TextAlignment.CENTER);
             i.setTitleAlignment(TextAlignment.CENTER);
@@ -110,7 +113,8 @@ public class MeasuresViewController{
 
     }
 
-    private void createFaultsTile(Color backgroundColor, Color foregroundColor){
+    private void createFaultsTile(Color backgroundColor, Color foregroundColor)
+    {
         Indicator rightGraphics = new Indicator(), middleGraphics = new Indicator(), leftGraphics = new Indicator();
         rightGraphics.setDotOffColor(Tile.GREEN);
         rightGraphics.setDotOnColor(Tile.RED);
@@ -143,7 +147,8 @@ public class MeasuresViewController{
     }
 
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() throws IOException
+    {
         AnchorPane.setBottomAnchor(gridPane, 0d);
         AnchorPane.setTopAnchor(gridPane, 0d);
         AnchorPane.setLeftAnchor(gridPane, 0d);
@@ -152,11 +157,13 @@ public class MeasuresViewController{
 
         boolean isSelected = MainApp.Rootcontroller.dm.isSelected();
         Color backgroundColor, foregroundColor;
-        if (isSelected) {
+        if (isSelected)
+        {
             backgroundColor = Color.rgb(0, 0, 0);
             foregroundColor = Color.rgb(255, 255, 255);
         }
-        else {
+        else
+        {
             foregroundColor = Color.rgb(0, 0, 0);
             backgroundColor = Color.rgb(255, 255, 255);
         }
@@ -167,12 +174,14 @@ public class MeasuresViewController{
         gridPane.setVgap(10); //vertical gap in pixels
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         int column=0;
-        for (Tile i:statisticalData) {
+        for (Tile i:statisticalData)
+        {
             gridPane.add(i, column,0);
             column ++;
         }
         gridPane.add(statusTile, column, 0);
-        for (int i = 0; i< MainApp.nModules; i++) {
+        for (int i = 0; i< MainApp.nModules; i++)
+        {
             Module module = new Module(MainApp.nCells, MainApp.nSensors, MainApp.currentMeasurements, MainApp.Rootcontroller.dm.isSelected());
             GridPane gridPane1 = new GridPane();
             hBox.getChildren().add(gridPane1);
@@ -190,30 +199,31 @@ public class MeasuresViewController{
         }
     }
 
-    public void writeOutput() throws IOException {
+    public void writeOutput() throws IOException
+    {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
         String fileName = "output" + dateFormat.format(date) + ".csv";
         Path path = Paths.get(MainApp.outputPath,fileName);
-        try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString()))) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString())))
+        {
             writer.writeAll(vector.get(0).csvData);
         }
-
         System.out.println("Output file created in: " + path);
     }
 
-    public void setDarkMode(Color backgroundColor, Color foregroundColor) {
+    public void setDarkMode(Color backgroundColor, Color foregroundColor)
+    {
         statusTile.setBackgroundColor(backgroundColor);
         statusTile.setForegroundBaseColor(foregroundColor);
-        for (Tile i:statisticalData) {
+        for (Tile i:statisticalData)
+        {
             i.setBackgroundColor(backgroundColor);
             i.setForegroundBaseColor(foregroundColor);
         }
-        for (Module i: vector) {
+        for (Module i: vector)
+        {
             i.setDarkMode(backgroundColor, foregroundColor);
         }
     }
-
-
-
 }
