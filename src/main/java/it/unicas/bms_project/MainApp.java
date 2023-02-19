@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -166,7 +165,6 @@ public class MainApp extends Application
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
-            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             primaryStage.setScene(scene);
 
             primaryStage.setOnCloseRequest(event ->
