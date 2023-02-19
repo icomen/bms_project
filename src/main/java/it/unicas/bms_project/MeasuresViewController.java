@@ -57,9 +57,7 @@ public class MeasuresViewController
                 .value(0.0)
                 .title("Vmax")
                 .textSize(Tile.TextSize.BIGGER)
-                .text("Whatever text")
                 .unit("V")
-                .description("Test")
                 .build();
 
         Tile Vmin = TileBuilder.create()
@@ -67,9 +65,7 @@ public class MeasuresViewController
                 .value(0.0)
                 .title("Vmin")
                 .textSize(Tile.TextSize.BIGGER)
-                .text("Whatever text")
                 .unit("V")
-                .description("Test")
                 .build();
 
         Tile Vaverage = TileBuilder.create()
@@ -77,7 +73,6 @@ public class MeasuresViewController
                 .value(0.0)
                 .title("Vaverage")
                 .textSize(Tile.TextSize.BIGGER)
-                .text("Whatever text")
                 .unit("V")
                 .build();
 

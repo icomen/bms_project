@@ -132,7 +132,7 @@ public class BmsOverviewController
         }
         fireSmokeTile = TileBuilder.create().skinType(Tile.SkinType.FIRE_SMOKE)
                 .prefSize(300, 300)
-                .title("Temperature sensor")
+                .title("Maximum temperature detected")
                 .titleAlignment(TextAlignment.CENTER)
                 .unit("°C")
                 .threshold(40) // triggers the fire and smoke effect
