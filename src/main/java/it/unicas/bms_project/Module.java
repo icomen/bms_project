@@ -48,7 +48,7 @@ public class Module
         {
             aux[i] = TileBuilder.create()
                     .skinType(Tile.SkinType.GAUGE)
-                    .title("Sensor "+(i+1)+ " temperature")
+                    .title("Temp Sensor "+(i+1))
                     .titleAlignment(TextAlignment.CENTER)
                     .unit("º")
                     .minWidth(200)
